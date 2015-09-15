@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  geodata: 
+  g_places_id: MyString
+  categories: MyString
+  name: MyString
+
+two:
+  geodata: 
+  g_places_id: MyString
+  categories: MyString
+  name: MyString
