@@ -8,7 +8,7 @@ User.create({username: 'notAvi', real_name: 'Not Me', password: 'vegan', hide_fu
 
 Restaurant.create({name: "Totto Ramen", lat: 40.764987, lng: 40.764987, categories: ['ramen', 'japanese']})
 
-Review.create({full_review: "This place was amazing, delicious and fantastically awesome #yumyumyum", user_id: 1, restaurant_id: 1, rating: 3.5})
+Review.create({full_review: "This place was amazing, delicious and fantastically awesome #yumyumyum", user_id: 1, restaurant_id: 2, rating: 3.5})
 
 
-Review.create({full_review: "TOTTO #RAMEN, #FUCKYEAH", user_id: 2, restaurant_id: 1, rating: 3.5})
+Review.create({full_review: "TOTTO #RAMEN, #FUCKYEAH", user_id: 2, restaurant_id: 2, rating: 3.5})

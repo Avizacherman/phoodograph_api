@@ -20,13 +20,13 @@ def index
 	end
 
 
-	reviews = Review.search limit, offset, api_key,  parameters
-	render json: {data: reviews} 
+	@reviews = Review.search limit, offset, api_key,  parameters
+	render 
 	
 end
 
 def create
-	
+
 end
 
 def show

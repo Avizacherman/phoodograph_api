@@ -24,8 +24,8 @@ class Api::V0::RestaurantController < ApplicationController
 	end
 
 	def show
-		restaurant = Restaurant.find(params["id"])
-		render json: {data: restaurant}
+		@restaurant = Restaurant.find(params["id"])
+		render
 	end
 
 	def create

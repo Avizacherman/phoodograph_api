@@ -27,7 +27,7 @@ module Search
 end
 
 class Review < ActiveRecord::Base
-  belongs_to :place
+  belongs_to :restaurant
   belongs_to :user
   before_save :populate_hashtags
 
