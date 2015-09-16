@@ -16,6 +16,7 @@ module Sanitizer
         hashed_self.delete("real_name")
       end
       hashed_self.delete("hide_full_name")
+      hashed_self.delete("api_key")
       return hashed_self
     end
   end
@@ -25,10 +26,12 @@ end
 class User < ActiveRecord::Base
   has_secure_password
   require "securerandom"
+  validates :username, uniqueness: {case_sensitive: false, message: "Username already exists"}
+  validates :email, uniqueness: {case_sensitive: false, message: "E-mail address already in use"}
   # validates :password_confirmation, presence: true
   has_many :reviews
   before_save :generate_api_key
-  after_find do User.sanitize_password(self) end
+  # after_find do User.sanitize_password(self) end
 
   extend Sanitizer
 

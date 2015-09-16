@@ -5,7 +5,7 @@ module Search
     if(!User.find_by(:api_key => api_key))
     	return "Invalid API Key"
     end
-    
+
     queries.flatten!
     data = Review.all
 
@@ -16,7 +16,9 @@ module Search
            data = data.where.contains(key => [value.downcase!])
         when :rating
           data = data.where(key => value)
-        end
+        when :username
+			data = data.where(:user_id => User.find_by(key => value).id)        
+		end
         
       end
     end

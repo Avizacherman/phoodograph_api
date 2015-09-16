@@ -11,6 +11,10 @@ def index
 	if params["hashtags"]
 		parameters << {:hashtags => params["hashtags"]}
 	end
+	if params["username"]
+		parameters << {:username => params["username"]}
+	end
+
 
 	reviews = Review.search limit, offset, params["api_key"],  parameters
 	render json: {data: reviews} 
