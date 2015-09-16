@@ -24,11 +24,17 @@ end
 
 class User < ActiveRecord::Base
   has_secure_password
+  require "securerandom"
   # validates :password_confirmation, presence: true
   has_many :reviews
+  before_save :generate_api_key
   after_find do User.sanitize_password(self) end
 
   extend Sanitizer
+
+  def generate_api_key
+  	self.api_key = SecureRandom.urlsafe_base64(25)
+  end
 
 
 

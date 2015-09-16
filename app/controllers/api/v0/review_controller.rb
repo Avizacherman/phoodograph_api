@@ -12,7 +12,7 @@ def index
 		parameters << {:hashtags => params["hashtags"]}
 	end
 
-	reviews = Review.search limit, offset, parameters
+	reviews = Review.search limit, offset, params["api_key"],  parameters
 	render json: {data: reviews} 
 end
 

@@ -1,6 +1,11 @@
 module Search
 
-  def search limit, offset, *queries
+  def search limit, offset, api_key, *queries
+    
+    if(!User.find_by(:api_key => api_key))
+    	return "Invalid API Key"
+    end
+    
     queries.flatten!
     data = Review.all
 
@@ -8,7 +13,7 @@ module Search
       query.each do |key, value|
         case key
         when :hashtags
-          data = data.where.contains(key => [value.downcase!])
+           data = data.where.contains(key => [value.downcase!])
         when :rating
           data = data.where(key => value)
         end

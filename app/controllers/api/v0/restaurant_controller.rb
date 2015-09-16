@@ -14,7 +14,12 @@ class Api::V0::RestaurantController < ApplicationController
 			parameters << {:category => params["category"]}
 		end
 
-		restaurants = Restaurant.search(radius, limit, parameters )
+		if params["name"]
+			parameters << {:name => params["name"]}
+		end
+
+
+		restaurants = Restaurant.search radius, limit, params["api_key"], parameters 
 		render json: {data: restaurants}
 	end
 

@@ -6,6 +6,7 @@ gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
 gem 'postgres_ext'
+gem 'pg_search'
 # Use LESS for stylesheets
 gem 'less-rails', '~> 2.7.0'
 # Use Uglifier as compressor for JavaScript assets
