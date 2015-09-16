@@ -28,10 +28,9 @@ class User < ActiveRecord::Base
   require "securerandom"
   validates :username, uniqueness: {case_sensitive: false, message: "Username already exists"}
   validates :email, uniqueness: {case_sensitive: false, message: "E-mail address already in use"}
-  # validates :password_confirmation, presence: true
+  validates :password_confirmation, presence: true
   has_many :reviews
   before_save :generate_api_key
-  # after_find do User.sanitize_password(self) end
 
   extend Sanitizer
 

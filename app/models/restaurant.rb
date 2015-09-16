@@ -7,7 +7,7 @@ module RestaurantSearch
     end
 
     queries.flatten!
-    data = Restaurant.includes(:reviews).all
+    data = Restaurant.all.includes(:reviews)
 
     
     queries.each do |query|

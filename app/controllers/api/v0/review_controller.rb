@@ -1,8 +1,12 @@
 class Api::V0::ReviewController < ApplicationController
 
+
+
 def index
 	offset = params["offset"] ? params["offset"].to_i : 0
 	limit = params["limit"] ? params["limit"].to_i : 10
+	api_key = session[:api_key] ? session[:api_key] : params["api_key"]
+
 	parameters = []
 
 	if params["rating"]
@@ -16,9 +20,24 @@ def index
 	end
 
 
-	reviews = Review.search limit, offset, params["api_key"],  parameters
+	reviews = Review.search limit, offset, api_key,  parameters
 	render json: {data: reviews} 
-		
+	
 end
+
+def create
+	
+end
+
+def show
+end
+
+def update
+end
+
+def destroy
+end
+
+
 
 end

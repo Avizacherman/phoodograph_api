@@ -3,6 +3,7 @@ class Api::V0::RestaurantController < ApplicationController
 	def index
 		radius = params["radius"] ? params["radius"].to_i : 5
 		limit = params["limit"] ? params["limit"].to_i : 10
+		api_key = session[:api_key] ? session[:api_key] : params["api_key"]
 
 		parameters = [] 
 		if params["location"]
@@ -18,8 +19,8 @@ class Api::V0::RestaurantController < ApplicationController
 			parameters << {:name => params["name"]}
 		end
 
-		restaurants = Restaurant.search radius, limit, params["api_key"], parameters 
-		render json: {data: restaurants}
+		@restaurants = Restaurant.search radius, limit, api_key, parameters 
+		render
 	end
 
 	def show
