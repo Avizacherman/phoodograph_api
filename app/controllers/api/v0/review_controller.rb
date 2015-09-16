@@ -1,7 +1,5 @@
 class Api::V0::ReviewController < ApplicationController
 
-
-
 def index
 	offset = params["offset"] ? params["offset"].to_i : 0
 	limit = params["limit"] ? params["limit"].to_i : 10
@@ -20,16 +18,17 @@ def index
 	end
 
 
-	@reviews = Review.search limit, offset, api_key,  parameters
+	@reviews = Review.search limit, offset, api_key, parameters
 	render 
 	
 end
 
 def create
-
 end
 
 def show
+	@review = Review.find(params["id"])
+	render
 end
 
 def update

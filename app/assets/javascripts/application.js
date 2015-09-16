@@ -18,6 +18,5 @@
 //= require components
 //= require underscore
 //= require backbone
-//= require backbone-relational
 //= require ./api/v0/v0
 //= require_tree .

@@ -1,6 +1,6 @@
 module Sanitizer
 
-  def sanitize_password ar_user
+  def sanitize ar_user
     hashed_self = ar_user.as_json
     if hashed_self.class == Array
       hashed_self.each do |instance|
