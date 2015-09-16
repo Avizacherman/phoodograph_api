@@ -18,6 +18,7 @@ def index
 
 	reviews = Review.search limit, offset, params["api_key"],  parameters
 	render json: {data: reviews} 
+		
 end
 
 end
