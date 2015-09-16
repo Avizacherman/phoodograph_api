@@ -1,10 +1,20 @@
 class Api::V0::UserController < ApplicationController
 
 def show
-	stuff = User.all
-	# binding.pry
-	render json: stuff.sanitize_password(stuff)
+	user = User.find(params["id"])
+	render json: User.sanitize_password(user)
+end
 
+def create
+end
+
+def update
+end
+
+def destroy
+	user = User.find(params["id"])
+	user.destroy
+	render nothing: true
 end
 
 end

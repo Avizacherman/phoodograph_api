@@ -23,6 +23,11 @@ class Api::V0::RestaurantController < ApplicationController
 		render json: {data: restaurant}
 	end
 
+	def create
+		restaurant = Restaurant.create(restaurant_params)
+		render json: {data: restaurant}
+	end
+
 	def update
 		restaurant = Restaurant.find(params["id"])
 		restaurant.update(restaurant_params)
@@ -30,6 +35,15 @@ class Api::V0::RestaurantController < ApplicationController
 	end
 
 	def destroy
+		restaurant = Restaurant.find(params["id"])
+		restaurant.destroy
+		render nothing: true
+	end
+
+private 
+
+	def restaurant_params
+		params.require(:restaurant).permit(:lat, :lng, :name, :categories)
 	end
 
 end

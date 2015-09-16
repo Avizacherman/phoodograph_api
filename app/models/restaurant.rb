@@ -2,7 +2,7 @@ module SearchFunction
 
   def search radius, limit, *queries
   	queries.flatten!
-    data = Restaurant.all
+    data = Restaurant.includes(:reviews).all
     queries.each do |query|
 
       query.each do |key, value|
@@ -14,6 +14,7 @@ module SearchFunction
         end
       end
     end
+    binding.pry
     return data.limit(limit)
 
   end
@@ -21,7 +22,7 @@ end
 
 
 class Restaurant < ActiveRecord::Base
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
   acts_as_mappable
 
   extend SearchFunction

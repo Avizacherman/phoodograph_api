@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150915211230) do
+ActiveRecord::Schema.define(version: 20150916022339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,17 +28,19 @@ ActiveRecord::Schema.define(version: 20150915211230) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer  "place_id"
+    t.integer  "restaurant_id"
     t.integer  "user_id"
     t.float    "rating"
-    t.string   "hashtags",     default: [],              array: true
+    t.string   "hashtags",      default: [],              array: true
     t.text     "picture_data"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.text     "full_review"
   end
 
   add_index "reviews", ["hashtags"], name: "index_reviews_on_hashtags", using: :gin
+  add_index "reviews", ["restaurant_id"], name: "index_reviews_on_restaurant_id", using: :btree
+  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -50,4 +52,6 @@ ActiveRecord::Schema.define(version: 20150915211230) do
     t.boolean  "hide_full_name",  default: false
   end
 
+  add_foreign_key "reviews", "restaurants"
+  add_foreign_key "reviews", "users"
 end
