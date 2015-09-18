@@ -11,3 +11,8 @@
 /log/*
 !/log/.keep
 /tmp
+
+server.crt
+server.csr
+server.key
+server.orig.key
