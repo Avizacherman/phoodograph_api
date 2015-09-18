@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917024947) do
+ActiveRecord::Schema.define(version: 20150917182739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,13 +42,15 @@ ActiveRecord::Schema.define(version: 20150917024947) do
     t.integer  "user_id"
     t.float    "rating"
     t.string   "hashtags",      default: [],              array: true
-    t.text     "picture_data"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.text     "full_review"
+    t.string   "img"
   end
 
   add_index "reviews", ["hashtags"], name: "index_reviews_on_hashtags", using: :gin
+  add_index "reviews", ["restaurant_id"], name: "index_reviews_on_restaurant_id", using: :btree
+  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -62,4 +64,6 @@ ActiveRecord::Schema.define(version: 20150917024947) do
     t.string   "email"
   end
 
+  add_foreign_key "reviews", "restaurants"
+  add_foreign_key "reviews", "users"
 end

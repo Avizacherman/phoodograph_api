@@ -13,7 +13,8 @@ module Search
       query.each do |key, value|
         case key
         when :hashtags
-           data = data.where.contains(key => [value.downcase!])
+            value = value.downcase
+           data = data.where.contains(key => [value])
         when :rating
           data = data.where(key => value)
         when :username
@@ -30,6 +31,15 @@ class Review < ActiveRecord::Base
   belongs_to :restaurant
   belongs_to :user
   before_save :populate_hashtags
+  before_save :create_s3_association
+
+  attr_accessor :img_data
+
+  def create_s3_association
+    s3_object = PhoodographyBucket.object("img-#{SecureRandom.uuid}.jpg")
+    s3_object.put(body: self.img, content_type: "image/jpg")
+    self.img = s3_object.public_url
+  end
 
   def populate_hashtags
     hash_array = self.full_review.scan(/#\w+/).to_a

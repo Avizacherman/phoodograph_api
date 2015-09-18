@@ -14,10 +14,13 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-
+gem 'aws-sdk-core', '~> 2'
+gem 'aws-sdk-resources'
 
 # HTTP Requests to access Google Places API
 # gem 'HTTParty'
+gem 'jwt'
+gem 'knock'
 
 #initiate bcryp
 gem 'bcrypt', '~> 3.1.7'
@@ -25,6 +28,8 @@ gem 'bcrypt', '~> 3.1.7'
 # Integrate javascript support
 gem 'therubyracer', platforms: :ruby
 
+# Use thin as webserver
+gem 'thin'
 # Use PRY
 gem 'pry-rails'
 

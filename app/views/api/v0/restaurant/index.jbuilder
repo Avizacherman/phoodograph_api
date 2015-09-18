@@ -1,4 +1,3 @@
-review_id_offset = 0
 
 json.restaurants @restaurants do |restaurant|
 	json.name restaurant.name
@@ -11,18 +10,16 @@ json.restaurants @restaurants do |restaurant|
 	
 
 
-	json.most_recent_review restaurant.reviews do |review|
+	json.most_recent_review  do 
 
 
-		if review.id - review_id_offset  == restaurant.reviews.length
-
-		json.user review.user.username
-		json.full_review review.full_review
-		json.hashtags review.hashtags
-		json.rating review.rating
-		json.date review.created_at
-		review_id_offset += restaurant.reviews.length
-		end
+		
+		json.user restaurant.reviews.last.user.username
+		json.full_review restaurant.reviews.last.full_review
+		json.hashtags restaurant.reviews.last.hashtags
+		json.rating restaurant.reviews.last.rating
+		json.date restaurant.reviews.last.created_at
+		json.img_url restaurant.reviews.last.img
 	end
 
 end

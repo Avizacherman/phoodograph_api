@@ -3,11 +3,10 @@ $(document).ready(function() {
 	var geocoder = new google.maps.Geocoder
 
 	var map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 15,
-		})
+		zoom: 15,
+	})
 	var timezone = jstz.determine().name()
 	var approximateLocation = timezone.replace(/\w+\//, '').replace(/_/, ' ')
-		//approximate starting location by timezone
 	var initialCoordinates
 
 	initialPromise = new Promise(function(resolve) {
@@ -23,7 +22,8 @@ $(document).ready(function() {
 	})
 
 	initialPromise.then(function(results) {
-			map.setCenter(results)
+		App.currentLocation = results
+		map.setCenter(App.currentLocation)
 	})
 
 
@@ -43,11 +43,11 @@ $(document).ready(function() {
 				zoom--
 				map.setZoom(zoom)
 				console.log(zoom)
-				if (zoom === 11) {
+				if (zoom === 13) {
 					clearInterval(zoomOut)
 					resolve()
 				}
-			}, 200)
+			}, 100)
 
 		})
 		navigationPromise.then(function() {
@@ -59,10 +59,13 @@ $(document).ready(function() {
 						lng = pos.coords.longitude
 
 						if (pos.coords.longitude) {
-							map.panTo({
+
+							App.currentLocation = {
 								lat: lat,
 								lng: lng
-							})
+							}
+
+							map.panTo(App.currentLocation)
 							resolve()
 						}
 					})
@@ -81,7 +84,7 @@ $(document).ready(function() {
 					map.setZoom(zoom)
 					if (zoom === 15)
 						clearInterval(zoomOut)
-				}, 200)
+				}, 100)
 
 			})
 
@@ -90,7 +93,7 @@ $(document).ready(function() {
 	}
 
 
-	$('h1').click(function() {
+	$('#get-current-position').click(function() {
 		zoomAndPan()
 
 	})
