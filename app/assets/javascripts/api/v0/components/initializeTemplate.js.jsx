@@ -21,58 +21,6 @@ var InitialTemplate = React.createClass({
 	}.bind(this))
 	      
 	},
-
-	 zoomAndPan: function(coords) {
-		//detrmines if it's manual or automatic
-		var method = coords ? "geolocation" : "currentLocation"
-		var zoom = App.map.getZoom()
-
-			var zoomOut = setInterval(function() {
-				zoom--
-				App.map.setZoom(zoom)
-				console.log(zoom)
-				if (zoom === 13) {
-					clearInterval(zoomOut)
-
-				if (method === "currentLocation") {
-					navigator.geolocation.getCurrentPosition(function(pos) {
-						lat = pos.coords.latitude
-						lng = pos.coords.longitude
-
-						if (pos.coords.longitude) {
-							console.log(this)
-							this.setState({currentLocation: {lat: lat, lng: lng}})
-
-							App.map.panTo(this.state.currentLocation)
-							zoom = App.map.getZoom()
-							var zoomOut = setInterval(function() {
-								zoom++
-								App.map.setZoom(zoom)
-								if (zoom === 15)
-									clearInterval(zoomOut)
-							}, 100)						}
-								})
-							} else {
-								App.map.panTo({
-									lat: coords.lat,
-									lng: coords.lng
-								})
-							zoom = App.map.getZoom()
-							var zoomOut = setInterval(function() {
-								zoom++
-								App.map.setZoom(zoom)
-								if (zoom === 15)
-									clearInterval(zoomOut)
-							}, 100)				}
-
-							
-
-						}
-
-					
-				}, 100)
-		
-	},
 	 
 	updateRestaurants: function(filters){
 		//Initialized data
@@ -88,11 +36,14 @@ var InitialTemplate = React.createClass({
 			})
 
 	},
+	currentLocation: function(){
+		zoomAndPan()
+	},
 	render: function(){
 		return(
 			<div>
 			<div className="pusher" id="base-content">
-				<TopBar updateLocation={this.zoomAndPan}/>
+				<TopBar updateLocation={this.currentLocation}/>
 				<MapDisplay/>
 
 			</div>
