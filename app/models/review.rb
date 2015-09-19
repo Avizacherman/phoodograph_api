@@ -30,15 +30,18 @@ end
 class Review < ActiveRecord::Base
   belongs_to :restaurant
   belongs_to :user
-  before_save :populate_hashtags
+  # before_save :populate_hashtags
+  
+
   before_save :create_s3_association
 
-  attr_accessor :img_data
 
   def create_s3_association
+
+    img = self.image
     s3_object = PhoodographyBucket.object("img-#{SecureRandom.uuid}.jpg")
-    s3_object.put(body: self.img, content_type: "image/jpg")
-    self.img = s3_object.public_url
+    s3_object.put(body: img, content_type: "image/jpg")
+    self.image = s3_object.public_url
   end
 
   def populate_hashtags

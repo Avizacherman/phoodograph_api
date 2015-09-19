@@ -48,7 +48,8 @@ end
 private
 
 def review_params
-	parameters = params.permit(:img, :full_review, :restaurant_id, :rating)
+	parameters = params.permit(:image, :full_review, :restaurant_id, :rating)
+  parameters[:image] = parameters[:image].read
 	parameters[:user_id] = User.find_by(session[:api_key]).id
 	return parameters
 end

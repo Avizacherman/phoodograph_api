@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917182739) do
+ActiveRecord::Schema.define(version: 20150918143644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20150917182739) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.text     "full_review"
-    t.string   "img"
+    t.string   "image"
   end
 
   add_index "reviews", ["hashtags"], name: "index_reviews_on_hashtags", using: :gin

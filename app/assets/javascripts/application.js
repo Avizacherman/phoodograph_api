@@ -16,10 +16,9 @@
 //= require react
 //= require react_ujs
 //= require components
-//= require underscore
-//= require backbone
 //= require jstz.min
 //= require moment
 //= require moment-tz
 //= require ./api/v0/v0
 //= require_tree .
+

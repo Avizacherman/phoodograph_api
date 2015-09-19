@@ -5,6 +5,6 @@ json.reviews @reviews do |review|
 	json.rating review.rating
 	json.full_review review.full_review
 	json.hashtags review.hashtags
-	json.img_url review.img
+	json.img_url review.image
 	json.date review.created_at
 end

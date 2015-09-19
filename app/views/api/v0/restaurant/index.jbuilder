@@ -19,7 +19,7 @@ json.restaurants @restaurants do |restaurant|
 		json.hashtags restaurant.reviews.last.hashtags
 		json.rating restaurant.reviews.last.rating
 		json.date restaurant.reviews.last.created_at
-		json.img_url restaurant.reviews.last.img
+		json.img_url restaurant.reviews.last.image
 	end
 
 end

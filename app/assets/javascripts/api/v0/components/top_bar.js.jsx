@@ -1,6 +1,8 @@
-
 var TopBar = React.createClass({
     displayName: 'TopBar',
+    componentDidMount: function () {
+
+    },
     render: function () {
         return (
 						<div className="ui top attached inverted menu" id="top-menu">
@@ -12,21 +14,20 @@ var TopBar = React.createClass({
 						    <i className="filter icon"></i>
 						    Filters
 						  </a>
-						  <a className="right item" id="get-current-position">
-						    <i className="location arrow icon"></i>
-						    Current Location
-						  </a>
+						  <CurrentLocation onClick={this.props.updateLocation}/>
+						  
 						 
 						</div>
         );
     }
 });
-$(document).ready(function(){
-React.render(<TopBar/>, document.getElementById('content'))
-$('.ui.labeled.icon.sidebar')
-  .sidebar({closable: false})
-  .sidebar({dimPage: false})
 
-
-
+var CurrentLocation = React.createClass({
+	render: function() {return (
+		<a className="right item" onClick={this.props.onClick} >
+						    <i className="location arrow icon"></i>
+						    Current Location
+						  </a>
+		)
+	}
 })

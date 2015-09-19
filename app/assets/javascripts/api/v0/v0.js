@@ -1,25 +1,18 @@
 //= require_self
-//= require_tree ./models
-//= require_tree ./collections
 //= require_tree ./components
-//= require_tree ./views
 
-App = {
-	Models: {},
-	Collections: {},
-	Views: {},
+var App = { 
 	currentLocation: {
 		lat: 0,
 		lng: 0
-	}
+	}, 
+	map: new Object
 }
 
-$(document).ready(function() {
 	$.ajaxSetup({
 		data: {
-			api_key: "DKEkxQrvqYzkrAn3TRW45uc50F349a7wUA"
+			api_key: "NvwQ_e-deJQjIdvpwzT7Mv5SgToR9xjPMw"
 		}
 	})
 
-	// App.Router = Backbone.Router
-})
+
