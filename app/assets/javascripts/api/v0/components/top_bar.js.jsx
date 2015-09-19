@@ -10,10 +10,7 @@ var TopBar = React.createClass({
 						    <i className="block layout icon"></i>
 						    Topics
 						  </a>
-						  <a className="item">
-						    <i className="filter icon"></i>
-						    Filters
-						  </a>
+						  <Filter onClick={this.props.filter} />
 						  <CurrentLocation onClick={this.props.updateLocation}/>
 						  
 						 
@@ -29,5 +26,16 @@ var CurrentLocation = React.createClass({
 						    Current Location
 						  </a>
 		)
+	}
+})
+
+var Filter = React.createClass({
+	render: function() { 
+		return (
+		<a className="item" onClick={this.props.onClick}>
+						    <i className="filter icon"></i>
+						    Filters
+						  </a>
+				)
 	}
 })

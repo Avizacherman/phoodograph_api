@@ -1,6 +1,9 @@
 var InitialTemplate = React.createClass({
 	displayName: "initialTemplate",
-	getInitialState: function(){ return {restaurants: [], reviews: [], filters: [], currentLocation: {}}},
+	getInitialState: function(){ 
+		return {restaurants: [], reviews: [], markers: [], filters: [{radius: 100}]}
+	},
+	
 	componentWillMount: function () {
 
 
@@ -8,27 +11,45 @@ var InitialTemplate = React.createClass({
 		navigator.geolocation.getCurrentPosition(function(pos) {
 
 			if (pos.coords.longitude) {
-				resolve({
-					lat: pos.coords.latitude,
-					lng: pos.coords.longitude
-				})
+				App.currentLocation.lat = pos.coords.latitude
+				App.currentLocation.lng = pos.coords.longitude
+				resolve()
 			}
 		})
 	})
+		initialPromise.then(function() {
+			 this.updateRestaurants()  
+		}.bind(this))	      
+	},
+	testFilter: function(){
+		App.currentLocation.lat = 40.7723585
+		App.currentLocation.lng = -73.9561148
+		this.setState({filters: [{radius: 1}]}, function(){
+					this.updateRestaurants()
 
-	initialPromise.then(function(results) {
-		this.setState({currentLocation: {lat: results.lat, lng: results.lng}})
-	}.bind(this))
-	      
+		})
 	},
 	 
-	updateRestaurants: function(filters){
-		//Initialized data
+	updateRestaurants: function(){
 		$.ajax({
-			url: (this.props.restaurantURL + '?location=' + this.state.currentLocation.lat + ',' + this.state.currentLocation.lng + '&radius=100'),
+			url: (this.props.restaurantURL + '?location=' + App.currentLocation.lat + ',' + App.currentLocation.lng + this.state.filters.map(function(filter){
+					key = Object.keys(filter)
+					//maps key value pairs to query strings using the filter state that will also update on state changes
+
+					// if(filter === this.state.filters[0]){
+					// 	return "?" + key + "=" + filter[key] /*+ "&"*/
+					// }
+
+					// if(this.state.filters.indexOf(filter) === this.state.filters.length - 1){
+					// 		return  key + "=" + filter[key]
+					// 		}
+						return '&' + key + "=" + filter[key] /*+ "&"*/
+
+						}.bind(this))),
 			method: 'GET'
 		})
 			.done(function(data){
+				console.log(this)
 				this.setState({restaurants: data.restaurants})
 			}.bind(this))
 			.fail(function(err){
@@ -43,23 +64,12 @@ var InitialTemplate = React.createClass({
 		return(
 			<div>
 			<div className="pusher" id="base-content">
-				<TopBar updateLocation={this.currentLocation}/>
-				<MapDisplay/>
+				<TopBar filter={this.testFilter} updateLocation={this.currentLocation}/>
+				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers}/>
 
 			</div>
 			<div className="ui right vertical sidebar inverted labled icon menu" id="review-details">
-				<a className="item">
-						    <i className="block layout icon"></i>
-						    Topics
-						  </a>
-						  <a className="item">
-						    <i className="filter icon"></i>
-						    Filters
-						  </a>
-						  <a className="right item" id="get-current-position">
-						    <i className="location arrow icon"></i>
-						    Current Location
-						  </a>
+				
 			  </div>
 			</div> 
 			)

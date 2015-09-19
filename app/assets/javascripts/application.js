@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require underscore
 //= require semantic_ui/semantic_ui
 //= require react
 //= require react_ujs
