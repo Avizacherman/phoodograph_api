@@ -48,20 +48,20 @@ var MapDisplay = React.createClass({
 					this.props.restaurants.forEach(function(restaurant) {
 							var marker = new google.maps.Marker({
 								map: App.map,
-								position: restaurant.geodata
+								position: restaurant.geodata,
+								restaurantID: restaurant.id
 							})
 							this.props.markers.push(marker)
 						}.bind(this))
 								//check markers and clear those that no longer match restaurant data
 						
 					this.props.markers.forEach(function(marker, index) {
-						var markerGeodata = {
-							lat: marker.getPosition().H,
-							lng: marker.getPosition().L
-						}
-						if (!_.filter(this.props.restaurants, function(obj) {	 
-								return obj.geodata === markerGeodata
+
+						if (!_.find(this.props.restaurants, function(obj) {	 	
+								return obj.id === marker.restaurantID
 							})) {
+							console.log(marker)
+							
 							marker.setMap(null)
 						}
 
