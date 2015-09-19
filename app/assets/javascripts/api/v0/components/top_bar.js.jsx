@@ -12,7 +12,7 @@ var TopBar = React.createClass({
 						  </a>
 						  <Filter onClick={this.props.filter} />
 						  <CurrentLocation onClick={this.props.updateLocation}/>
-						  
+						  <Second onClick={this.props.second} />
 						 
 						</div>
         );
@@ -35,6 +35,17 @@ var Filter = React.createClass({
 		<a className="item" onClick={this.props.onClick}>
 						    <i className="filter icon"></i>
 						    Filters
+						  </a>
+				)
+	}
+})
+
+var Second = React.createClass({
+	render: function() { 
+		return (
+		<a className="item" onClick={this.props.onClick}>
+						    <i className="user icon"></i>
+						    Second
 						  </a>
 				)
 	}
