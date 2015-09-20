@@ -10,8 +10,52 @@ var MapDisplay = React.createClass({
 								lng: pos.coords.longitude
 							}
 						})
+						var controlDiv = document.createElement('div')
+						var locationControl = new CurrentLocationControl(controlDiv, App.map)
+
+						controlDiv.index = 1
+						App.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(controlDiv)		
 					}
 				})
+
+
+			function CurrentLocationControl(controlDiv, map) {
+
+			  // Set CSS for the control border.
+			  var controlUI = document.createElement('div');
+			  controlUI.style.backgroundColor = '#fff';
+			  controlUI.style.border = '2px solid #fff';
+			  controlUI.style.borderRadius = '3px';
+			  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+			  controlUI.style.cursor = 'pointer';
+			  controlUI.style.marginBottom = '22px';
+			  controlUI.style.marginLeft = '10px';
+			  controlUI.style.textAlign = 'center';
+			  controlUI.title = 'Go to current location';
+			  controlDiv.appendChild(controlUI);
+
+			  // Set CSS for the control interior.
+			  var controlText = document.createElement('div');
+			  controlText.style.height = '30px';
+			  controlText.style.width = '30px';
+			  controlText.style.paddingTop = '2px'
+			  controlText.style.paddingLeft = '5px';
+			  controlText.style.paddingRight = '5px';
+			  controlText.style.fontSize = '25px'
+			  controlText.style.display = 'table-cell'
+			  controlText.style.verticalAlign = 'middle'
+				controlText.innerHTML = "<img src='http://images.clipartpanda.com/google-location-icon-519580-076_LocationArrow-512.png' height='25px' width='25px'>"
+			  controlUI.appendChild(controlText);
+
+			  // Setup the click event listeners: simply set the map to Chicago.
+			  controlUI.addEventListener('click', function() {
+			  	zoomAndPan()
+			  });
+
+				}
+
+				
+
 			},
 			render: function() {
 				return ( <div> <div id = "map"
@@ -23,7 +67,8 @@ var MapDisplay = React.createClass({
 							position: "absolute"
 						}
 					}
-					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} / > < /div>)
+					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} / > 
+					< /div>)
 				}
 			})
 
@@ -60,7 +105,6 @@ var MapDisplay = React.createClass({
 						if (!_.find(this.props.restaurants, function(obj) {	 	
 								return obj.id === marker.restaurantID
 							})) {
-							console.log(marker)
 							
 							marker.setMap(null)
 						}
@@ -70,11 +114,20 @@ var MapDisplay = React.createClass({
 					//update array to reflect markers that are on the map
 					this.props.markers = this.props.markers.map(function(marker){
 						if(marker.getMap() != null){
-
 							return marker
 						} 
 					})
+
+
 				}
 				return null
 			}
 		})
+
+var MapCenterControl = React.createClass({
+	render: function(){
+	
+
+	return null
+	}
+})
