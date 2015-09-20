@@ -3,6 +3,7 @@ json.restaurants @restaurants do |restaurant|
 	json.name restaurant.name
 	json.id restaurant.id
 	json.categories restaurant.categories
+	json.average_rating restaurant.average_rating
 	json.geodata do
 		json.lat restaurant.lat
 		json.lng restaurant.lng

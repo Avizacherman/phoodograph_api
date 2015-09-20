@@ -11,14 +11,18 @@ class Api::V0::RestaurantController < ApplicationController
 			parameters << {:location => {:lat => geodata[0].to_f, :lng => geodata[1].to_f}}
 		end
 
-		if params["category"]
-			parameters << {:category => params["category"]}
+		if params["categories"]
+			parameters << {:category => params["categories"]}
 		end
 
 		if params["name"]
 			parameters << {:name => params["name"]}
 		end
 
+		if params["rating"]
+			parameters << {:rating => params["rating"]}
+		end
+		
 		@restaurants = Restaurant.search radius, limit, api_key, parameters 
 		render
 	end

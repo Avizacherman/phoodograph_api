@@ -8,7 +8,21 @@
 	
 }
 
+#close-filter{
+	float: right;
+	color: rgba(25,25,25,.7);
+}
+#close-filter:hover{
+	cursor: pointer;
+}
+
 #filter-bar {
 	width: 20%;
-	color: rgb(230, 230, 230);
+	min-height: 40%;
+	max-height: 400px;
+	top: 30%;
+	box-shadow: -5px, -5px, 2px;
+	color: rgb(25, 25, 25);
+	min-width: 300px;
+	background: rgba(255,255,255, .8);
 }

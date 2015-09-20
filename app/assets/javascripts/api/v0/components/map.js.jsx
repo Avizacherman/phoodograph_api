@@ -67,8 +67,10 @@ var MapDisplay = React.createClass({
 							position: "absolute"
 						}
 					}
-					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} / > 
-					< /div>)
+					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} populateRestaurant={this.props.populateRestaurant}/ > 
+					<MapImageBox/>
+
+					</div>)
 				}
 			})
 
@@ -89,13 +91,37 @@ var MapDisplay = React.createClass({
 							}
 						}.bind(this))
 					}.bind(this))
-					console.log("restaurants: ", this.props.restaurants)
+
 					this.props.restaurants.forEach(function(restaurant) {
 							var marker = new google.maps.Marker({
 								map: App.map,
 								position: restaurant.geodata,
-								restaurantID: restaurant.id
+								restaurantID: restaurant.id,
+								recentReviewImgURL: restaurant.most_recent_review.img_url,
+								title: restaurant.name,
+								icon: {
+									url: '/assets/images/cpg-foods-icon.png',
+									scaledSize: {height: 20, width: 20}
+								}
 							})
+							marker.addListener('mouseover', function(){
+
+								marker.setIcon({
+									url: marker.recentReviewImgURL,
+									scaledSize: {height: 50, width: 50}
+								})
+							})
+							marker.addListener('mouseout', function(){
+								marker.setIcon({url: '/assets/images/cpg-foods-icon.png',
+									scaledSize: {height: 20, width: 20}
+								})
+
+
+							})
+							marker.addListener('click', function(){
+								this.props.populateRestaurant(restaurant.id)
+							
+							}.bind(this))
 							this.props.markers.push(marker)
 						}.bind(this))
 								//check markers and clear those that no longer match restaurant data
@@ -123,4 +149,12 @@ var MapDisplay = React.createClass({
 				return null
 			}
 		})
-
+var MapImageBox = React.createClass({
+	render: function(){
+		return(
+			<div id="floating-review-box" style={{position: "absolute"}, {height: "100px"}, {width: "100px"}, {display: "none"}}>
+			<img id="floating-review-image"/>
+			 </div>
+			)
+	}
+})

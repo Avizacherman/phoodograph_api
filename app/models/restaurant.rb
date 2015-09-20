@@ -20,6 +20,8 @@ module RestaurantSearch
             data = data.where.contains(:categories => [value])
           when :name
             data = data.search_by_name(value)
+          when :rating
+            data = data.where "average_rating >= ?", value
         end
       end
     end

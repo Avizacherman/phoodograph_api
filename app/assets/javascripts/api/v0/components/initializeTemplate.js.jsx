@@ -1,7 +1,7 @@
 var InitialTemplate = React.createClass({
 	displayName: "initialTemplate",
 	getInitialState: function(){ 
-		return {restaurants: [], reviews: [], markers: [], filters: [{radius: 100}]}
+		return {restaurants: [], reviews: [], markers: [], filters: [{radius: 20}, {rating: 1}]}
 	},
 	
 	componentWillMount: function () {
@@ -21,19 +21,15 @@ var InitialTemplate = React.createClass({
 			 this.updateRestaurants()  
 		}.bind(this))	      
 	},
-	testFilter: function(){
-		App.currentLocation.lat = 40.7723585
-		App.currentLocation.lng = -73.9561148
-		this.setState({filters: [{radius: 1}]}, function(){
-					this.updateRestaurants()
+	clearCategories: function(){
 
-		})
 	},
 	 
 	updateRestaurants: function(){
-		$.ajax({
-			url: (this.props.restaurantURL + '?location=' + App.currentLocation.lat + ',' + App.currentLocation.lng + this.state.filters.map(function(filter){
+		var queryString = this.state.filters.map(function(filter){
+					
 					key = Object.keys(filter)
+
 					//maps key value pairs to query strings using the filter state that will also update on state changes
 
 					// if(filter === this.state.filters[0]){
@@ -43,13 +39,21 @@ var InitialTemplate = React.createClass({
 					// if(this.state.filters.indexOf(filter) === this.state.filters.length - 1){
 					// 		return  key + "=" + filter[key]
 					// 		}
-						return '&' + key + "=" + filter[key] /*+ "&"*/
+					if(key[0] === 'categories'){
+						
+						return  '&' + key[0] + "=" + filter[key[0]].join().toLowerCase()
+					} else {
 
-						}.bind(this))),
+						return key[0] + "=" + filter[key[0]] /*+ "&"*/
+					}
+						}).join('&')
+		console.log(queryString)
+
+		$.ajax({
+			url: (this.props.restaurantURL + '?location=' + App.currentLocation.lat + ',' + App.currentLocation.lng + queryString ),
 			method: 'GET'
 		})
 			.done(function(data){
-				console.log(this)
 				this.setState({restaurants: data.restaurants})
 			}.bind(this))
 			.fail(function(err){
@@ -61,13 +65,23 @@ var InitialTemplate = React.createClass({
 		zoomAndPan()
 	},
 	updateFilters: function(event){
-		event.preventDefault()
-		var filterArray = new Array
-		var categories = $('#categorySelect').dropdown('get values')	
-		filterArray.push({categories: categories})		
+		if(event){
+			event.preventDefault()
+		}
 
-		var radius = $('#radius').val() 
+		var filterArray = new Array
+		var categories = $('#category-select').dropdown('get values')
+		categories.pop()	
+		if(categories[0] != null && categories[0] != ""){
+			
+		filterArray.push({categories: categories})		
+		}
+
+		var radius = $('#radius-input').val() 
 		filterArray.push({radius: radius})
+
+		var rating = $('#rating-filter').rating('get rating')
+		filterArray.push({rating: rating})
 		this.setState({filters: filterArray}, function(){
 			this.updateRestaurants()
 
@@ -81,6 +95,14 @@ var InitialTemplate = React.createClass({
 		.sidebar('setting', 'closable', false)
 		.sidebar('toggle')
 	},
+	populateRestaurant: function(id){
+		$.ajax({
+			url: this.props.restaurantURL + '/' + id,
+			method: 'GET'
+		}).done(function(data){
+			console.log(data)
+		})
+	},
 	render: function(){
 		return(
 			<div className="pusher" id="base-content">
@@ -88,7 +110,7 @@ var InitialTemplate = React.createClass({
 			<TopBar filter={this.displayFilters}/>
 
 			<div>
-				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation}/>
+				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant}/>
 				
 
 			</div>

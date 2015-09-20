@@ -30,10 +30,9 @@ end
 class Review < ActiveRecord::Base
   belongs_to :restaurant
   belongs_to :user
-  # before_save :populate_hashtags
-  
-
+  before_save :populate_hashtags
   before_save :create_s3_association
+  after_save :update_restaurant_rating
 
 
   def create_s3_association
@@ -50,6 +49,15 @@ class Review < ActiveRecord::Base
     	hashed.gsub!('#', '').downcase!
     end
     self.hashtags = hash_array
+  end
+
+  def update_restaurant_rating
+    total_score = 0
+    self.restaurant.reviews.each do |review|
+      total_score += review.rating
+    end
+    average_score = total_score/self.restaurant.reviews.count
+    self.restaurant.update(:average_rating => average_score)
   end
 
   extend Search
