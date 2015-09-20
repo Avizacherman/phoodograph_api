@@ -1,10 +1,14 @@
 #map {
 	height: 93%;
-	width: 96%;
-	margin: 0 auto;
+	width: 100%;
 	position: fixed;
 }
 
 #top-menu {
 	
+}
+
+#filter-bar {
+	width: 20%;
+	color: rgb(230, 230, 230);
 }

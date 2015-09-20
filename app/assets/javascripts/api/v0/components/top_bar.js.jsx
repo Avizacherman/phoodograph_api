@@ -5,29 +5,25 @@ var TopBar = React.createClass({
     },
     render: function () {
         return (
-						<div className="ui top attached inverted menu" id="top-menu">
-						   <a className="item">
-						    <i className="block layout icon"></i>
-						    Topics
-						  </a>
+						<div className="ui attached top inverted menu" id="top-menu">
+						   
 						  <Filter onClick={this.props.filter} />
-						  <CurrentLocation onClick={this.props.updateLocation}/>
-						  <Second onClick={this.props.second} />
+						  
 						 
 						</div>
         );
     }
 });
 
-var CurrentLocation = React.createClass({
-	render: function() {return (
-		<a className="right item" onClick={this.props.onClick} >
-						    <i className="location arrow icon"></i>
-						    Current Location
-						  </a>
-		)
-	}
-})
+// var CurrentLocation = React.createClass({
+// 	render: function() {return (
+// 		<a className="right item" onClick={this.props.onClick} >
+// 						    <i className="location arrow icon"></i>
+// 						    Current Location
+// 						  </a>
+// 		)
+// 	}
+// })
 
 var Filter = React.createClass({
 	render: function() { 
@@ -40,13 +36,13 @@ var Filter = React.createClass({
 	}
 })
 
-var Second = React.createClass({
-	render: function() { 
-		return (
-		<a className="item" onClick={this.props.onClick}>
-						    <i className="user icon"></i>
-						    Second
-						  </a>
-				)
-	}
-})
+// var Second = React.createClass({
+// 	render: function() { 
+// 		return (
+// 		<a className="item" onClick={this.props.onClick}>
+// 						    <i className="user icon"></i>
+// 						    Second
+// 						  </a>
+// 				)
+// 	}
+// })

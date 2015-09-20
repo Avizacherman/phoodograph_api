@@ -60,22 +60,40 @@ var InitialTemplate = React.createClass({
 	currentLocation: function(){
 		zoomAndPan()
 	},
-	secondTest: function(){
-		App.currentLocation.lat = 40.7415432
-		App.currentLocation.lng = -73.9864685
-		this.setState({filters: [{radius: 1}]}, function(){
-					this.updateRestaurants()
-				})
+	updateFilters: function(event){
+		event.preventDefault()
+		var filterArray = new Array
+		var categories = $('#categorySelect').dropdown('get values')	
+		filterArray.push({categories: categories})		
 
+		var radius = $('#radius').val() 
+		filterArray.push({radius: radius})
+		this.setState({filters: filterArray}, function(){
+			this.updateRestaurants()
+
+		})
+
+	},
+	displayFilters: function(){
+		$('#filter-bar')
+		.sidebar('setting', 'transition', 'overlay')
+		.sidebar('setting', 'dimPage', false)
+		.sidebar('setting', 'closable', false)
+		.sidebar('toggle')
 	},
 	render: function(){
 		return(
-			<div>
 			<div className="pusher" id="base-content">
-				<TopBar filter={this.testFilter} updateLocation={this.currentLocation} second={this.secondTest}/>
-				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers}/>
+
+			<TopBar filter={this.displayFilters}/>
+
+			<div>
+				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation}/>
+				
 
 			</div>
+			<FilterBar className="ui right  vertical sidebar overlay inverted labled icon menu" id="filter-bar" categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters}/>
+
 			<div className="ui right vertical sidebar inverted labled icon menu" id="review-details">
 				
 			  </div>
@@ -87,6 +105,6 @@ var InitialTemplate = React.createClass({
 
 $(document).ready(function(){
 
-React.render(<InitialTemplate reviewURL="api/v0/review" restaurantURL="api/v0/restaurant" userURL="api/v0/user"/>, document.getElementById('content'))
+React.render(<InitialTemplate categoryList={App.categoryList}reviewURL="api/v0/review" restaurantURL="api/v0/restaurant" userURL="api/v0/user"/>, document.querySelector('body') )
 
 })

@@ -18,7 +18,7 @@ var MapDisplay = React.createClass({
 					}
 				})
 
-
+				//add current location button to map
 			function CurrentLocationControl(controlDiv, map) {
 
 			  // Set CSS for the control border.
@@ -36,15 +36,15 @@ var MapDisplay = React.createClass({
 
 			  // Set CSS for the control interior.
 			  var controlText = document.createElement('div');
-			  controlText.style.height = '30px';
-			  controlText.style.width = '30px';
+			  controlText.style.height = '20px';
+			  controlText.style.width = '20px';
 			  controlText.style.paddingTop = '2px'
 			  controlText.style.paddingLeft = '5px';
 			  controlText.style.paddingRight = '5px';
 			  controlText.style.fontSize = '25px'
 			  controlText.style.display = 'table-cell'
 			  controlText.style.verticalAlign = 'middle'
-				controlText.innerHTML = "<img src='http://images.clipartpanda.com/google-location-icon-519580-076_LocationArrow-512.png' height='25px' width='25px'>"
+				controlText.innerHTML = "<img src='http://images.clipartpanda.com/google-location-icon-519580-076_LocationArrow-512.png' height='15px' width='15px'>"
 			  controlUI.appendChild(controlText);
 
 			  // Setup the click event listeners: simply set the map to Chicago.
@@ -124,10 +124,3 @@ var MapDisplay = React.createClass({
 			}
 		})
 
-var MapCenterControl = React.createClass({
-	render: function(){
-	
-
-	return null
-	}
-})
