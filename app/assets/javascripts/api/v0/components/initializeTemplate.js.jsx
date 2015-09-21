@@ -1,12 +1,14 @@
 var InitialTemplate = React.createClass({
 	displayName: "initialTemplate",
 	getInitialState: function(){ 
-		return {restaurants: [], reviews: [], markers: [], currentRestaurant: {}, filters: [{radius: 20}, {rating: 1}]}
+		return {loginStatus: 'middle', restaurants: [], reviews: [], markers: [], currentRestaurant: {}, filters: [{radius: 20}, {rating: 1}]}
 	},
-	
+	updateLoginStatus: function(bool){
+		this.setState({loginStatus: bool})
+	},
 	componentWillMount: function () {
 
-
+		this.loginControl()
 		initialPromise = new Promise(function(resolve) {
 		navigator.geolocation.getCurrentPosition(function(pos) {
 
@@ -26,7 +28,8 @@ var InitialTemplate = React.createClass({
 	},
 	 
 	updateRestaurants: function(){
-		var queryString = this.state.filters.map(function(filter){
+		if(this.state.filters){
+		var queryString = "&" + this.state.filters.map(function(filter){
 					
 					key = Object.keys(filter)
 
@@ -47,6 +50,7 @@ var InitialTemplate = React.createClass({
 						return key[0] + "=" + filter[key[0]] /*+ "&"*/
 					}
 						}).join('&')
+				}
 		console.log(queryString)
 
 		$.ajax({
@@ -91,6 +95,7 @@ var InitialTemplate = React.createClass({
 	displayFilters: function(){
 		$('#filter-bar')
 		.sidebar('setting', 'transition', 'overlay')
+		.sidebar('setting', 'mobileTransition', 'overlay')
 		.sidebar('setting', 'dimPage', false)
 		.sidebar('setting', 'closable', false)
 		.sidebar('toggle')
@@ -98,6 +103,7 @@ var InitialTemplate = React.createClass({
 	populateRestaurant: function(id){
 		$('#restaurant-bar')
 		.sidebar('setting', 'transition', 'overlay')
+		.sidebar('setting', 'mobileTransition', 'overlay')
 		.sidebar('setting', 'dimPage', false)
 		.sidebar('setting', 'closable', false)
 		$.ajax({
@@ -111,12 +117,26 @@ var InitialTemplate = React.createClass({
 		}.bind(this)).fail(function(err){
 			console.log(err)
 		})
+	}, 
+	loginControl: function(){
+		var status = false
+       $.ajax({
+       	url: '/login_status',
+       	method: 'GET'
+       }).done(function(data){
+       	if(data.logged_in){
+       		this.setState({loginStatus: true})
+       	}else {
+       		this.setState({loginStatus: false})
+       	}
+       }.bind(this))
 	},
+
 	render: function(){
 		return(
 			<div className="pusher" id="base-content">
 
-			<TopBar filter={this.displayFilters}/>
+			<TopBar filter={this.displayFilters} loginStatus={this.state.loginStatus} updateLoginStatus={this.updateLoginStatus}/>
 
 				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant}/>
 				
@@ -125,6 +145,7 @@ var InitialTemplate = React.createClass({
 
 			<RestaurantSideBar ref="restaurantSideBar"restaurantDetails={this.state.currentRestaurant} id="restaurant-bar"/>
 				
+			<ModalControler updateLoginStatus={this.updateLoginStatus}/>
 			  </div>
 			)
 	}

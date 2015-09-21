@@ -134,7 +134,7 @@ var MapDisplay = React.createClass({
 								title: restaurant.name,
 								icon: {
 									url: '/assets/images/cpg-foods-icon.png',
-									scaledSize: {height: 20, width: 20}
+									scaledSize: {height: 30, width: 30}
 								}
 							})
 							marker.addListener('mouseover', function(){
@@ -146,7 +146,7 @@ var MapDisplay = React.createClass({
 							})
 							marker.addListener('mouseout', function(){
 								marker.setIcon({url: '/assets/images/cpg-foods-icon.png',
-									scaledSize: {height: 20, width: 20}
+									scaledSize: {height: 30, width: 30}
 								})
 
 

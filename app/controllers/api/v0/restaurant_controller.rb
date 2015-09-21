@@ -3,7 +3,6 @@ class Api::V0::RestaurantController < ApplicationController
 	def index
 		radius = params["radius"] ? params["radius"].to_i : 5
 		limit = params["limit"] ? params["limit"].to_i : 10
-		api_key = session[:api_key] ? session[:api_key] : params["api_key"]
 
 		parameters = [] 
 		if params["location"]
@@ -23,7 +22,7 @@ class Api::V0::RestaurantController < ApplicationController
 			parameters << {:rating => params["rating"]}
 		end
 		
-		@restaurants = Restaurant.search radius, limit, api_key, parameters 
+		@restaurants = Restaurant.search radius, limit, parameters 
 		render
 	end
 
@@ -33,20 +32,37 @@ class Api::V0::RestaurantController < ApplicationController
 	end
 
 	def create
-		restaurant = Restaurant.create(restaurant_params)
-		render json: {data: restaurant}
+		api_key = session[:api_key]
+		if(User.find_by api_key) 
+			restaurant = Restaurant.create(restaurant_params)
+			render json: {data: restaurant}
+		else 
+			render json: {error: "You are not logged in"}
+		end
 	end
 
 	def update
-		restaurant = Restaurant.find(params["id"])
-		restaurant.update(restaurant_params)
-		render json: {data: restaurant}
+		api_key = session[:api_key]
+		if(User.find_by api_key) 
+			restaurant = Restaurant.find(params["id"])
+			restaurant.update(restaurant_params)
+			render json: {data: restaurant}
+		else 
+			render json: {error: "You are not logged in"}
+		end
+		
 	end
 
 	def destroy
-		restaurant = Restaurant.find(params["id"])
-		restaurant.destroy
-		render nothing: true
+		api_key = session[:api_key]
+		if(User.find_by api_key) 
+			restaurant = Restaurant.find(params["id"])
+			restaurant.destroy
+			render nothing: true
+		else 
+			render json: {error: "You are not logged in"}
+		end
+		
 	end
 
 private 

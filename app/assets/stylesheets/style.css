@@ -1,19 +1,65 @@
 #map {
-	height: 93%;
+	height: 100%;
+	margin-top: -42px;
 	width: 100%;
 	position: fixed;
+	z-index: -1;
 }
 
-#top-menu {
-	
+#basic-label-checkbox{
+	color: white;
+}
+
+html.ios {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+html.ios,
+html.ios body {
+  height: initial !important;
+}
+
+#rotating-image-holder {
+	position: relative;
+	height: 200px;
+	width: 200px;
+	margin: 0 auto;
+}
+
+.rotating-image {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#top-bar {
+	background: rgba(250,250,250, .3);
+	z-index: 1;
 }
 
 #close-filter{
 	float: right;
 	color: rgba(25,25,25,.7);
 }
+#close-restaurant{
+	float: left;
+	position: fixed;
+	color: rgba(25,25,25,.7);
+}
 #close-filter:hover, #close-restaurant:hover{
 	cursor: pointer;
+}
+
+#recent-review-text-box{
+	max-height: 75px;
+	overflow: auto;
+}
+
+#recent-review-box, #category-box:{
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+
 }
 
 #filter-bar {
@@ -21,7 +67,7 @@
 	min-height: 40%;
 	max-height: 400px;
 	top: 30%;
-	box-shadow: -3px 3px 1px;
+	box-shadow: -4px -4px 3px 1px, 0px, -4px, 3px, 1px;
 	color: rgb(25, 25, 25);
 	min-width: 300px;
 	background: rgba(255,255,255, .8);
@@ -29,9 +75,9 @@
 #restaurant-bar {
 	width: 25%;
 	min-height: 60%;
-	max-height: 650px;
+	max-height: 600px;
 	top: 10%;
-	box-shadow: -3px 3px 1px;
+	box-shadow: -4px -4px 3px 1px, , 0px, -4px, 3px, 1px;
 	min-width: 300px;
 	background: rgba(255,255,255, .9);
 

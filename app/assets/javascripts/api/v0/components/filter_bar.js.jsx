@@ -4,7 +4,7 @@ var FilterBar = React.createClass({
 	},
 	render: function(){
 		return (
-				<div className="ui left vertical sidebar labled icon menu" id="filter-bar">
+				<div className="ui left vertical sidebar" id="filter-bar">
 				<span id="close-filter" onClick={this.closeFilters}> X </span>
 					<h1 className="ui center aligned header"> Filters </h1>
 					<div className="ui center aligned container">
@@ -62,9 +62,9 @@ var CategorySelection = React.createClass({
 		})
 
 		return (<div className="field">
-							<label id="categoryLabel"> </label>
+							<label id="categoryLabel"> Categories</label>
 						<select className="ui fluid search dropdown" ref="selectBox" id="category-select">
-						<option value="placeholder"> Categories </option>
+						<option value=""></option>
 						{categoryOptions}
 				   </select>
 				   </div>

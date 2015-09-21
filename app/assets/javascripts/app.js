@@ -17,7 +17,7 @@
 				zoom--
 				map.setZoom(zoom)
 				console.log(zoom)
-				if (zoom === 13) {
+				if (zoom > 13) {
 					clearInterval(zoomOut)
 					resolve()
 				}
@@ -56,7 +56,7 @@
 				var zoomOut = setInterval(function() {
 					zoom++
 					map.setZoom(zoom)
-					if (zoom === 15)
+					if (zoom < 15)
 						clearInterval(zoomOut)
 				}, 100)
 

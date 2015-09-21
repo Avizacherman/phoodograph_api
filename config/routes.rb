@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  mount Knock::Engine => "/knock"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -17,6 +16,11 @@ Rails.application.routes.draw do
         
     end
   end
+
+  post 'login' => 'session#login'
+  get 'logout' => 'session#logout'
+  post 'new_user' => 'session#new_user'
+  get  'login_status' => 'session#login_status'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

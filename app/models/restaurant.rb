@@ -1,11 +1,7 @@
 module RestaurantSearch
 
-  def search radius, limit, api_key, *queries
+  def search radius, limit, *queries
     
-    if(!User.find_by(:api_key => api_key))
-      return "Invalid API Key"
-    end
-
     queries.flatten!
     data = Restaurant.all.includes(:reviews)
 

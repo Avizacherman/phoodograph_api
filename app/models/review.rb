@@ -1,11 +1,8 @@
 module Search
 
-  def search limit, offset, api_key, *queries
+  def search limit, offset, *queries
     
-    if(!User.find_by(:api_key => api_key))
-    	return "Invalid API Key"
-    end
-
+   
     queries.flatten!
     data = Review.all
 

@@ -16,14 +16,14 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 
 #AWS Gems, Paperclip needs v1...grr
-gem 'aws-sdk'
 gem 'aws-sdk-core', '~> 2'
 gem 'aws-sdk-resources'
 
 # HTTP Requests to access Google Places API
 # gem 'HTTParty'
-gem 'jwt'
-gem 'knock'
+
+# JSON Web Tokens, maybe incorporate later
+# gem 'jwt'
 
 #initiate bcryp
 gem 'bcrypt', '~> 3.1.7'
@@ -55,9 +55,6 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-# paperclip image attachments
-gem 'paperclip'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

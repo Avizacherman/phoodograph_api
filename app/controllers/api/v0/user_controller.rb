@@ -6,12 +6,14 @@ def show
 end
 
 def create
-	binding.pry
+
 	user = User.create(user_params)
+	
 	if user.valid?
-		render json: User.sanitize(user)
+		session[:api_key] = user.api_key
+		render json: {login: true}
 	else
-		render json: user.errors.messages
+		render json: {error: user.errors.messages}
 	end
 
 end
@@ -22,13 +24,14 @@ end
 def destroy
 	user = User.find(params["id"])
 	user.destroy
+	reset_session
 	render nothing: true
 end
 
 private 
 
 def user_params
-	params.permit(:username, :password, :password_confirmation, :email)
+	params.permit(:username, :password, :email, :real_name)
 end
 
 end

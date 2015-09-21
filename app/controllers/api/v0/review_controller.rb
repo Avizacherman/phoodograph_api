@@ -3,7 +3,6 @@ class Api::V0::ReviewController < ApplicationController
 def index
 	offset = params["offset"] ? params["offset"].to_i : 0
 	limit = params["limit"] ? params["limit"].to_i : 10
-	api_key = session[:api_key] ? session[:api_key] : params["api_key"]
 
 	parameters = []
 
@@ -18,14 +17,19 @@ def index
 	end
 
 	
-	@reviews = Review.search limit, offset, api_key, parameters
+	@reviews = Review.search limit, offset, parameters
 	render 
 	
 end
 
 def create
-	review = Review.create(review_params)
-	render nothing: true
+	api_key = session[:api_key]
+	if(User.find_by api_key) 
+		review = Review.create(review_params)
+		render nothing: true
+	else 
+		render json: {error: "You are not logged in"}
+	end
 end
 
 def show
@@ -34,15 +38,25 @@ def show
 end
 
 def update
-	review = Review.find(params["id"])
-	review.update(review_params)
+	api_key = session[:api_key]
+	if(User.find_by api_key) 
+		review = Review.find(params["id"])
+		review.update(review_params)
+	else
+		render json: {error: "You are not logged in"}
+	end	
 	render :show
 end
 
 def destroy
-	review = Review.find(params["id"])
-	review.destroy
-	render nothing: true
+	api_key = session[:api_key]
+	if(User.find_by api_key) 
+		review = Review.find(params["id"])
+		review.destroy
+		render nothing: true
+	else
+		render json: {error: "You are not logged in"}
+	end	
 end
 
 private
