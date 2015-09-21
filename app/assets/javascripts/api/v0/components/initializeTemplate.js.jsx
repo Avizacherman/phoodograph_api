@@ -1,7 +1,7 @@
 var InitialTemplate = React.createClass({
 	displayName: "initialTemplate",
 	getInitialState: function(){ 
-		return {restaurants: [], reviews: [], markers: [], filters: [{radius: 20}, {rating: 1}]}
+		return {restaurants: [], reviews: [], markers: [], currentRestaurant: {}, filters: [{radius: 20}, {rating: 1}]}
 	},
 	
 	componentWillMount: function () {
@@ -96,11 +96,20 @@ var InitialTemplate = React.createClass({
 		.sidebar('toggle')
 	},
 	populateRestaurant: function(id){
+		$('#restaurant-bar')
+		.sidebar('setting', 'transition', 'overlay')
+		.sidebar('setting', 'dimPage', false)
+		.sidebar('setting', 'closable', false)
 		$.ajax({
 			url: this.props.restaurantURL + '/' + id,
 			method: 'GET'
 		}).done(function(data){
-			console.log(data)
+			this.setState({currentRestaurant: data}, function(){
+				if($('#restaurant-bar').sidebar('is hidden'))
+				$('#restaurant-bar').sidebar('toggle')
+			})
+		}.bind(this)).fail(function(err){
+			console.log(err)
 		})
 	},
 	render: function(){
@@ -109,17 +118,14 @@ var InitialTemplate = React.createClass({
 
 			<TopBar filter={this.displayFilters}/>
 
-			<div>
 				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant}/>
 				
 
-			</div>
-			<FilterBar className="ui right  vertical sidebar overlay inverted labled icon menu" id="filter-bar" categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters}/>
+			<FilterBar categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters} id="filter-bar"/>
 
-			<div className="ui right vertical sidebar inverted labled icon menu" id="review-details">
+			<RestaurantSideBar ref="restaurantSideBar"restaurantDetails={this.state.currentRestaurant} id="restaurant-bar"/>
 				
 			  </div>
-			</div> 
 			)
 	}
 })

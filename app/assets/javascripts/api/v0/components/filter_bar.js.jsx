@@ -8,7 +8,7 @@ var FilterBar = React.createClass({
 				<span id="close-filter" onClick={this.closeFilters}> X </span>
 					<h1 className="ui center aligned header"> Filters </h1>
 					<div className="ui center aligned container">
-						<FilterForm filters={this.props.filters} categoryList={this.props.categoryList} onSubmit={this.props.updateFilters}/>
+						<FilterForm filters={this.props.filters} categoryList={this.props.categoryList} onSubmit={this.props.updateFilters} />
 					</div>
   			</div>
 

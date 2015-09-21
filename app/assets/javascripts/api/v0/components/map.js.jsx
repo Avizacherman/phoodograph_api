@@ -3,13 +3,46 @@ var MapDisplay = React.createClass({
 			componentDidMount: function() {
 				navigator.geolocation.getCurrentPosition(function(pos) {
 					if (pos.coords.longitude) {
+						
+						var NoPOIMap = new google.maps.StyledMapType(
+ 							 	[
+								  {
+								    "featureType": "poi",
+								    "stylers": [
+								      { "visibility": "off" }
+								    ]
+								  }
+								]
+							)
 						App.map = new google.maps.Map(document.getElementById('map'), {
 							zoom: 15,
 							center: {
 								lat: pos.coords.latitude,
 								lng: pos.coords.longitude
-							}
+							},
+							styles: [
+							  {
+							    "featureType": "poi",
+							    "stylers": [
+							      { "visibility": "off" }
+							    ]
+							  },{
+							    "featureType": "transit",
+							    "stylers": [
+							      { "visibility": "off" }
+							    ]
+							  },{
+							    "featureType": "poi.park",
+							    "stylers": [
+							      { "visibility": "on" }
+							    ]
+							  }
+							],
+							mapTypeControlOptions: {mapTypeIds: [NoPOIMap]}
+							
 						})
+				
+
 						var controlDiv = document.createElement('div')
 						var locationControl = new CurrentLocationControl(controlDiv, App.map)
 
