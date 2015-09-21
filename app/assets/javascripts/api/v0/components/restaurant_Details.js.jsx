@@ -7,7 +7,14 @@ var RestaurantSideBar = React.createClass({
 			<div className="ui right vertical sidebar labled icon menu" id="restaurant-bar">
 				<span id="close-restaurant" onClick={this.closeRestaurant}> X </span>
 				<h1 className="ui center aligned header"> {this.props.restaurantDetails.name} </h1>
+				<RestaurantImageRotator/>
 			</div>
 			)
 	}
 })	
+
+var RestaurantImageRotator = React.createClass({
+	render: function(){
+		return null
+	}
+})
