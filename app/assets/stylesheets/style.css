@@ -16,7 +16,7 @@ html.ios {
 }
 html.ios,
 html.ios body {
-  height: initial !important;
+  height: 100% !important;
 }
 
 #rotating-image-holder {
