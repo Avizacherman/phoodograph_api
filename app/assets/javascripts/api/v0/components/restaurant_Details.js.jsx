@@ -7,6 +7,7 @@ var RestaurantSideBar = React.createClass({
 	    	initialRating: this.props.restaurantDetails.average_rating
 	    })  
 	    	.rating('disable')
+	    clearInterval(App.imageRotation)
 	 
 	},
 	render: function(){
