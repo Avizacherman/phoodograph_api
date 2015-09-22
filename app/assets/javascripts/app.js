@@ -17,7 +17,7 @@
 				zoom--
 				map.setZoom(zoom)
 				console.log(zoom)
-				if (zoom > 13) {
+				if (zoom < 13) {
 					clearInterval(zoomOut)
 					resolve()
 				}
@@ -53,11 +53,11 @@
 			})
 			nextPromise.then(function() {
 				zoom = map.getZoom()
-				var zoomOut = setInterval(function() {
+				var zoomIn = setInterval(function() {
 					zoom++
 					map.setZoom(zoom)
-					if (zoom < 15)
-						clearInterval(zoomOut)
+					if (zoom > 15)
+						clearInterval(zoomIn)
 				}, 100)
 
 			})
