@@ -18,6 +18,9 @@ html.ios,
 html.ios body {
   height: 100% !important;
 }
+html.ios .pusher #top-bar{
+	font-size: 2.5em
+}
 
 #rotating-image-holder {
 	position: relative;
