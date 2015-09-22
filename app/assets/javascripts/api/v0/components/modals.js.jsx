@@ -135,10 +135,12 @@ var NewUserModal = React.createClass({
 				method: 'POST'
 			}).done(function(data){
 				if(Object.keys(data)[0]==='error'){
-					debugger
+					
 				} else {
 					this.props.updateLoginStatus(true)
+					$('#new-user-modal').modal('toggle')
 				}
+
 			}.bind(this)).fail(function(err){
 				console.log(err)
 			})
