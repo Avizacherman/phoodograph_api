@@ -2,7 +2,7 @@ class Api::V0::RestaurantController < ApplicationController
  
 	def index
 		radius = params["radius"] ? params["radius"].to_i : 5
-		limit = params["limit"] ? params["limit"].to_i : 10
+		limit = params["limit"] ? params["limit"].to_i : 25
 
 		parameters = [] 
 		if params["location"]

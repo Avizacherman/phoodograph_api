@@ -11,7 +11,7 @@ module RestaurantSearch
       query.each do |key, value|
         case key
           when :location
-            data = data.within(radius, :origin => [value[:lat], value[:lng]]).all
+            data = data.within(radius, :origin => [value[:lat], value[:lng]]).all.by_distance(:origin => [value[:lat], value[:lng]])
           when :category
             data = data.where.contains(:categories => [value])
           when :name
@@ -34,7 +34,7 @@ class Restaurant < ActiveRecord::Base
     :using => {
       :tsearch => {:prefix => :true}
     }
-  acts_as_mappable
+  acts_as_mappable :distance_field_name => :distance
 
 
   extend RestaurantSearch
