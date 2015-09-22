@@ -12,6 +12,7 @@ var RestaurantSideBar = React.createClass({
 	render: function(){
 		if(this.props.restaurantDetails.reviews){
 		var recentReview = this.props.restaurantDetails.reviews[this.props.restaurantDetails.reviews.length - 1]
+
 		var imageUrls = this.props.restaurantDetails.reviews.map(function(review){
 			return review.img_url
 		})
@@ -42,9 +43,12 @@ var RestaurantImageRotator = React.createClass({
 	 		var state = "tails"
  		 $('#rotating-image-tails').show()
  		 $('#rotating-image-heads').show()
+	  
 	  $('#rotating-image-tails').attr('src', this.props.images[this.props.images.length-1])
+
 	  if(this.props.images.length > 1){
 	  	App.imageRotation = setInterval(function(){
+
 	  		if(state === "tails"){
   			 state = "heads"
 		 		 $('#rotating-image-tails').fadeOut('slow')
@@ -54,7 +58,7 @@ var RestaurantImageRotator = React.createClass({
 	  			$('#rotating-image-tails').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length-1)])
   			 $('#rotating-image-heads').fadeOut('slow')		 
 	  		}
-	 		}, 3500)
+	 		}.bind(this), 3500)
 	  }
 	},
 	render: function(){

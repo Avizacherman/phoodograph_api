@@ -63,7 +63,6 @@ private
 
 def review_params
 	parameters = params.permit(:image, :full_review, :restaurant_id, :rating)
-	binding.pry
   parameters[:image] = parameters[:image].read
 	parameters[:user_id] = User.find_by(:api_key => session[:api_key]).id
 	return parameters
