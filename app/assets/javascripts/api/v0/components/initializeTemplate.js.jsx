@@ -105,6 +105,10 @@ var InitialTemplate = React.createClass({
 		.sidebar('setting', 'dimPage', false)
 		.sidebar('setting', 'closable', false)
 		.sidebar('toggle')
+
+		if($('html').attr('class')==='ios'){
+			$('#restaurant-bar').sidebar('setting', 'exclusive', true)
+		}
 	}, 
 	displayReviewBar: function(){
 		if($('#filter-bar').sidebar('is visible')){
@@ -116,6 +120,9 @@ var InitialTemplate = React.createClass({
 				.sidebar('setting', 'dimPage', false)
 				.sidebar('setting', 'closable', false)
 				.sidebar('toggle')
+		if($('html').attr('class')==='ios'){
+				$('#restaurant-bar').sidebar('setting', 'exclusive', true)		
+			}
 	},
 	populateRestaurant: function(id){
 		$('#restaurant-bar')
@@ -123,6 +130,11 @@ var InitialTemplate = React.createClass({
 		.sidebar('setting', 'mobileTransition', 'overlay')
 		.sidebar('setting', 'dimPage', false)
 		.sidebar('setting', 'closable', false)
+		if($('html').attr('class')==='ios'){
+					$('#restaurant-bar').sidebar('setting', 'exclusive', true)
+					
+		}
+
 		$.ajax({
 			url: this.props.restaurantURL + '/' + id,
 			method: 'GET'
