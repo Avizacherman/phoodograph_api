@@ -26,6 +26,8 @@ var CreateReviewSideBar = React.createClass({
 					multipart: true
 				}).done(function(data){
 					this.props.updateRestaurants()
+					App.formData = new FormData
+					this.cancel()
 				})
 				$('#no-restaurant').toggleClass('hidden').toggleClass('visible')
 				$('#ass-cat').toggle()
@@ -41,11 +43,18 @@ var CreateReviewSideBar = React.createClass({
 					multipart: true
 				}).done(function(data){
 					this.props.updateRestaurants()
+					App.formData = new FormData
+					this.cancel()
 				})
 		}
 	},
 	cancel: function(){
-		$('#create-review-form').form('clear')
+	$('#review-assc-restaurant').val('')
+	$('#ass-cat-select').dropdown('')
+	$('#input-full-review').val('')
+	$('#review-upload-picture').val('')
+	$('#preview-image').attr('src', '')
+	$('#review-rating').rating('set rating', 1)
 		$('#create-review-bar').sidebar('toggle')
 	},
 	render: function(){
