@@ -85,7 +85,9 @@ class Api::V0::RestaurantController < ApplicationController
 private 
 
 	def restaurant_params
-		params.permit(:lat, :lng, :name, :categories, :g_places_id)
+		parameters = params.permit(:lat, :lng, :name, :g_places_id)
+		parameters[:categories] = params["categories"]
+		return parameters
 	end
 
 end

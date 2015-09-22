@@ -158,7 +158,7 @@ var InitialTemplate = React.createClass({
 			<FilterBar categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters} id="filter-bar"/>
 
 			<RestaurantSideBar ref="restaurantSideBar"restaurantDetails={this.state.currentRestaurant} id="restaurant-bar"/>
-			<CreateReviewSideBar id="create-review-bar" categoryList={this.props.categoryList}/>
+			<CreateReviewSideBar id="create-review-bar" categoryList={this.props.categoryList} updateRestaurants={this.updateRestaurants}/>
 
 				
 			<ModalControler updateLoginStatus={this.updateLoginStatus}/>

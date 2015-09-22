@@ -1,6 +1,9 @@
 var CreateReviewSideBar = React.createClass({
 	createReview: function(){
 
+		App.formData.append('image', App.file)
+		App.formData.append('full_review', $('#input-full-review').val())
+		App.formData.append('rating', $('#review-rating').rating('get rating'))
 		if(!App.currentPlace.dbID){
 
 			var categories = $('#ass-cat-select').dropdown('get values')
@@ -11,8 +14,34 @@ var CreateReviewSideBar = React.createClass({
 				method: 'POST',
 				data: {name: App.currentPlace.name, lat: App.currentPlace.lat, lng: App.currentPlace.lng, categories: categories, g_places_id: App.currentPlace.placeId}
 			}).done(function(data){
-				console.log(data)
+				console.log(data.data.id)
+				App.currentPlace.dbID = data.data.id
+				App.formData.append('restaurant_id', data.data.id)
+				$.ajax({
+					url: 'api/v0/review',
+					method: 'POST',
+					data: App.formData,
+					contentType: false,
+					processData: false,
+					multipart: true
+				}).done(function(data){
+					this.props.updateRestaurants()
+				})
+				$('#no-restaurant').toggleClass('hidden').toggleClass('visible')
+				$('#ass-cat').toggle()
 			})
+		} else {
+			App.formData.append('restaurant_id', App.currentPlace.dbID)
+			$.ajax({
+					url: 'api/v0/review',
+					method: 'POST',
+					data: App.formData,
+					contentType: false,
+					processData: false, 
+					multipart: true
+				}).done(function(data){
+					this.props.updateRestaurants()
+				})
 		}
 	},
 	cancel: function(){
@@ -62,8 +91,8 @@ var RestaurantName = React.createClass({
 				method: 'GET'
 			}).done(function(data){
 				if(!data.id){
-					$('#review-assc-restaurant').addClass("ui error")
 					$('#no-restaurant').toggleClass('hidden').toggleClass('visible')
+					$('#ass-cat').toggle()
 					}
 					App.currentPlace.dbID = data.id
 			
@@ -88,9 +117,9 @@ var RestaurantName = React.createClass({
 
 					<div className="ui hidden message" id="no-restaurant">This restaurant is not currently in the system. Please add at least one category for this restaurant</div>
 					</div>
-					<div className="ui field" id="ass-cat">
+					<div className="ui field" id="ass-cat" style={{display: "none"}}>
 						<label id="categoryLabel"> Categories</label>
-						<select className="ui fluid search dropdown" ref="selectBox" id="ass-cat-select" style={{display: "none"}}>
+						<select className="ui fluid search dropdown" ref="selectBox" id="ass-cat-select">
 						<option value=""></option>
 						{categoryOptions}
 				   </select>
@@ -137,7 +166,7 @@ var RateRestaurant = React.createClass({
 	render: function(){
 		return(
 			<div className="field">
-							<label id="rating-label">Average Review Score</label>
+							<label id="rating-label">Review Score</label>
 			<div className="ui star rating" data-rating="1" ref="ratingFilter" id="review-rating" data-max-rating="5"/>
 			</div>
 			)

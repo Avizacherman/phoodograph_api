@@ -24,7 +24,7 @@ end
 
 def create
 	api_key = session[:api_key]
-	if(User.find_by api_key) 
+	if(User.find_by(:api_key=> api_key)) 
 		review = Review.create(review_params)
 		render nothing: true
 	else 
@@ -39,7 +39,7 @@ end
 
 def update
 	api_key = session[:api_key]
-	if(User.find_by api_key) 
+	if(User.find_by(:api_key=> api_key)) 
 		review = Review.find(params["id"])
 		review.update(review_params)
 	else
@@ -50,7 +50,7 @@ end
 
 def destroy
 	api_key = session[:api_key]
-	if(User.find_by api_key) 
+	if(User.find_by(:api_key=> api_key)) 
 		review = Review.find(params["id"])
 		review.destroy
 		render nothing: true
@@ -63,8 +63,9 @@ private
 
 def review_params
 	parameters = params.permit(:image, :full_review, :restaurant_id, :rating)
+	binding.pry
   parameters[:image] = parameters[:image].read
-	parameters[:user_id] = User.find_by(session[:api_key]).id
+	parameters[:user_id] = User.find_by(:api_key => session[:api_key]).id
 	return parameters
 end
 
