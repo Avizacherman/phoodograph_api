@@ -33,7 +33,7 @@ class Api::V0::RestaurantController < ApplicationController
 
 	def create
 		api_key = session[:api_key]
-		if(User.find_by api_key) 
+		if(User.find_by(:api_key=> api_key)) 
 			restaurant = Restaurant.create(restaurant_params)
 			render json: {data: restaurant}
 		else 
@@ -43,7 +43,7 @@ class Api::V0::RestaurantController < ApplicationController
 
 	def update
 		api_key = session[:api_key]
-		if(User.find_by api_key) 
+		if(User.find_by(:api_key=> api_key)) 
 			restaurant = Restaurant.find(params["id"])
 			restaurant.update(restaurant_params)
 			render json: {data: restaurant}
@@ -55,7 +55,7 @@ class Api::V0::RestaurantController < ApplicationController
 
 	def destroy
 		api_key = session[:api_key]
-		if(User.find_by api_key) 
+		if(User.find_by(:api_key=> api_key)) 
 			restaurant = Restaurant.find(params["id"])
 			restaurant.destroy
 			render nothing: true
@@ -85,7 +85,7 @@ class Api::V0::RestaurantController < ApplicationController
 private 
 
 	def restaurant_params
-		params.require(:restaurant).permit(:lat, :lng, :name, :categories, :g_places_id)
+		params.permit(:lat, :lng, :name, :categories, :g_places_id)
 	end
 
 end
