@@ -162,7 +162,7 @@ var PictureUpload = React.createClass({
 	render: function(){
 		return (
 			<div className="field">
-				<input type="file" id="review-upload-picture"/>
+				<input type="file" id="review-upload-picture" accept="image/*;capture=camera" />
 				<img id="preview-image" height="50px" width="50px"/>
 
 			</div>
