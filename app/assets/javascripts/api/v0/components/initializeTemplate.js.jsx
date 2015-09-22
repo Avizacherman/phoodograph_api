@@ -23,7 +23,10 @@ var InitialTemplate = React.createClass({
 			 this.updateRestaurants()  
 		}.bind(this))	      
 	},
-	clearCategories: function(){
+	componentDidMount: function(){
+		App.restaurantUpdateInterval = setInterval(function(){
+			this.updateRestaurants()
+		}.bind(this), 10000)
 
 	},
 	 
