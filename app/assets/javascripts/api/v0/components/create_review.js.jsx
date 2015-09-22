@@ -50,7 +50,7 @@ var CreateReviewSideBar = React.createClass({
 	},
 	cancel: function(){
 	$('#review-assc-restaurant').val('')
-	$('#ass-cat-select').dropdown('')
+	$('#ass-cat-select').dropdown('clear')
 	$('#input-full-review').val('')
 	$('#review-upload-picture').val('')
 	$('#preview-image').attr('src', '')
