@@ -52,10 +52,10 @@ var RestaurantImageRotator = React.createClass({
 	  		if(state === "tails"){
   			 state = "heads"
 		 		 $('#rotating-image-tails').fadeOut('slow')
-  			 $('#rotating-image-heads').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length-1)])
+  			 $('#rotating-image-heads').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length)])
 	  		} else {
 	  			state = "tails"
-	  			$('#rotating-image-tails').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length-1)])
+	  			$('#rotating-image-tails').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length)])
   			 $('#rotating-image-heads').fadeOut('slow')		 
 	  		}
 	 		}.bind(this), 3500)
