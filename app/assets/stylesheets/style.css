@@ -82,3 +82,14 @@ html.ios body {
 	background: rgba(255,255,255, .9);
 
 }
+
+#create-review-bar {
+	width: 25%;
+	min-height: 60%;
+	max-height: 600px;
+	top: 10%;
+	box-shadow: -4px -4px 3px 1px, 0px, -4px, 3px, 1px;
+	min-width: 300px;
+	background: rgba(255,255,255, .9);
+
+}

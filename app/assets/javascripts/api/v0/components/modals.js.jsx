@@ -139,7 +139,7 @@ var NewUserModal = React.createClass({
 				} else {
 					this.props.updateLoginStatus(true)
 				}
-			}).fail(function(err){
+			}.bind(this)).fail(function(err){
 				console.log(err)
 			})
 		}

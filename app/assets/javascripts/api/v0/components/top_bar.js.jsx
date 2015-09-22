@@ -6,7 +6,8 @@
        	return (
 						<div className="ui attached top menu" id="top-bar">
 						   
-						  <Filter onClick={this.props.filter} />					
+						  <Filter onClick={this.props.filter} />	
+						  <AddReview onClick={this.props.addReview}/>				
 						  <div className="right menu">
 						  	<LogOutButton updateLoginStatus={this.props.updateLoginStatus}/>
 						  </div>
@@ -90,5 +91,16 @@ var LogOutButton = React.createClass({
 				Log Out
 			</a>
 					)
+	}
+})
+
+var AddReview = React.createClass({
+	render: function(){
+		return (
+			<a className="item" onClick={this.props.onClick}>
+				<i className="plus icon"></i>
+				Add Review
+			</a>
+			)
 	}
 })

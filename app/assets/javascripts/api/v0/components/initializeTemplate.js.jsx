@@ -93,12 +93,26 @@ var InitialTemplate = React.createClass({
 
 	},
 	displayFilters: function(){
+		if($('#create-review-bar').sidebar('is visible')){
+			$('#create-review-bar').sidebar('toggle')
+		}
 		$('#filter-bar')
 		.sidebar('setting', 'transition', 'overlay')
 		.sidebar('setting', 'mobileTransition', 'overlay')
 		.sidebar('setting', 'dimPage', false)
 		.sidebar('setting', 'closable', false)
 		.sidebar('toggle')
+	}, 
+	displayReviewBar: function(){
+		if($('#filter-bar').sidebar('is visible')){
+			$('#filter-bar').sidebar('toggle')
+		}
+
+		$('#create-review-bar').sidebar('setting', 'transition', 'overlay')
+				.sidebar('setting', 'mobileTransition', 'overlay')
+				.sidebar('setting', 'dimPage', false)
+				.sidebar('setting', 'closable', false)
+				.sidebar('toggle')
 	},
 	populateRestaurant: function(id){
 		$('#restaurant-bar')
@@ -136,7 +150,7 @@ var InitialTemplate = React.createClass({
 		return(
 			<div className="pusher" id="base-content">
 
-			<TopBar filter={this.displayFilters} loginStatus={this.state.loginStatus} updateLoginStatus={this.updateLoginStatus}/>
+			<TopBar filter={this.displayFilters} loginStatus={this.state.loginStatus} updateLoginStatus={this.updateLoginStatus} addReview={this.displayReviewBar}/>
 
 				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant}/>
 				
@@ -144,6 +158,8 @@ var InitialTemplate = React.createClass({
 			<FilterBar categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters} id="filter-bar"/>
 
 			<RestaurantSideBar ref="restaurantSideBar"restaurantDetails={this.state.currentRestaurant} id="restaurant-bar"/>
+			<CreateReviewSideBar id="create-review-bar"/>
+
 				
 			<ModalControler updateLoginStatus={this.updateLoginStatus}/>
 			  </div>

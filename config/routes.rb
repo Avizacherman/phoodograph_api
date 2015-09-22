@@ -6,17 +6,16 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
-
   namespace :api do
     namespace :v0 do
       root 'welcome#index'
        resources :restaurant, default: :json
        resources :review, default: :json 
        resources :user, default: :json, :only => [:create, :destroy, :show, :update]
-        
     end
   end
 
+  get 'check_restaurants' => 'api/v0/restaurant#check_restaurants'
   post 'login' => 'session#login'
   get 'logout' => 'session#logout'
   post 'new_user' => 'session#new_user'

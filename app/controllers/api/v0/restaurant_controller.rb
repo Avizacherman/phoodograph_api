@@ -65,10 +65,27 @@ class Api::V0::RestaurantController < ApplicationController
 		
 	end
 
+	def check_restaurants
+		restaurant_name = params["name"]
+		restaurant_pid = params["pid"]
+
+
+		if Restaurant.find_by(:g_places_id => restaurant_pid) && restaurant_pid != nil
+			render json: {:id => Restaurant.find_by(:g_places_id => restaurant_pid).id}
+		 elsif Restaurant.find_by(:name => restaurant_name)
+		 	render json: {:id => Restaurant.find_by(:name => restaurant_name).id}
+		 else 
+		 	render json: {:id => false}
+		 end
+		end
+
+
+		
+
 private 
 
 	def restaurant_params
-		params.require(:restaurant).permit(:lat, :lng, :name, :categories)
+		params.require(:restaurant).permit(:lat, :lng, :name, :categories, :g_places_id)
 	end
 
 end

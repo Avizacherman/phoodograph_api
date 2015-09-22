@@ -41,7 +41,13 @@ var MapDisplay = React.createClass({
 							mapTypeControlOptions: {mapTypeIds: [NoPOIMap]}
 							
 						})
-				
+					
+					App.autocomplete = new google.maps.places.Autocomplete(document.getElementById('review-assc-restaurant'), {bounds: App.map.getBounds(), types: ['establishment']})
+
+						google.maps.event.addListener(App.autocomplete, 'place_changed', function(){
+						$('#review-assc-restaurant').trigger('autocompleteDone')
+					})
+
 
 						var controlDiv = document.createElement('div')
 						var locationControl = new CurrentLocationControl(controlDiv, App.map)
