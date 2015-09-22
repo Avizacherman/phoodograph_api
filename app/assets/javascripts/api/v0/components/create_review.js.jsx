@@ -1,6 +1,6 @@
 var CreateReviewSideBar = React.createClass({
 	createReview: function(){
-
+		var that=this
 		App.formData.append('image', App.file)
 		App.formData.append('full_review', $('#input-full-review').val())
 		App.formData.append('rating', $('#review-rating').rating('get rating'))
@@ -25,9 +25,11 @@ var CreateReviewSideBar = React.createClass({
 					processData: false,
 					multipart: true
 				}).done(function(data){
-					this.props.updateRestaurants()
+					that.props.updateRestaurants()
 					App.formData = new FormData
-					this.cancel()
+					that.cancel()
+				}).fail(function(data){
+					console.log(data)
 				})
 				$('#no-restaurant').toggleClass('hidden').toggleClass('visible')
 				$('#ass-cat').toggle()
@@ -42,9 +44,11 @@ var CreateReviewSideBar = React.createClass({
 					processData: false, 
 					multipart: true
 				}).done(function(data){
-					this.props.updateRestaurants()
+					that.props.updateRestaurants()
 					App.formData = new FormData
-					this.cancel()
+					that.cancel()
+				}).fail(function(data){
+					console.log(data)
 				})
 		}
 	},
