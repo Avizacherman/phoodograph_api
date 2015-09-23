@@ -4,8 +4,13 @@
   <title>Phoodography</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 
+<% if request.env['mobvious.device_type'] == :mobile %>
+  <%= stylesheet_link_tag 'mobile', media: 'all' %>
+<% else %>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all'%>
+<% end %>
+
   
   <%= csrf_meta_tags %>
 </head>

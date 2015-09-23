@@ -15,6 +15,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 
+gem 'mobvious'
+gem 'mobvious-rails'
+
 #AWS Gems, Paperclip needs v1...grr
 gem 'aws-sdk-core', '~> 2'
 gem 'aws-sdk-resources'

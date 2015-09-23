@@ -24,5 +24,7 @@ module PhoodographApi
     config.active_record.raise_in_transactional_callbacks = true
     # config.app_generators.stylesheet_engine :less
 
+    config.middleware.use Mobvious::Manager
+
   end
 end
