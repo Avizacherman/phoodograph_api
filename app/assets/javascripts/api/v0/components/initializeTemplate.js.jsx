@@ -107,7 +107,7 @@ var InitialTemplate = React.createClass({
 		.sidebar('toggle')
 
 		if($('html').attr('class')==='ios'){
-			$('#restaurant-bar').sidebar('setting', 'exclusive', true)
+			$('#filter-bar').sidebar('setting', 'exclusive', true)
 		}
 	}, 
 	displayReviewBar: function(){
@@ -121,7 +121,7 @@ var InitialTemplate = React.createClass({
 				.sidebar('setting', 'closable', false)
 				.sidebar('toggle')
 		if($('html').attr('class')==='ios'){
-				$('#restaurant-bar').sidebar('setting', 'exclusive', true)		
+				$('#create-review-bar').sidebar('setting', 'exclusive', true)		
 			}
 	},
 	populateRestaurant: function(id){
