@@ -72,6 +72,13 @@ var NewUserModal = React.createClass({
 	},
 	componentDidMount: function () {
 	  $('#new-user-display-name').checkbox('set checked')	
+	  
+	  $('#new-user-form').on('keydown', function(e){
+			if (e.keyCode == 13){
+				this.createAccount()
+			}
+		}.bind(this))
+
 	  $('#new-user-form').form({ 
 	  	fields: {
 	  		username: {
