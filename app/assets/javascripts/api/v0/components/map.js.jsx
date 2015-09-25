@@ -124,9 +124,9 @@ var MapDisplay = React.createClass({
 								lat: marker.getPosition().H,
 								lng: marker.getPosition().L
 							}
-							if (restaurant.geodata === markerGeodata) {
+							if (restaurant.id === marker.restaurantID) {
 
-								this.props.restaurant.splice(index, 1)
+								delete restaurant
 							}
 						}.bind(this))
 					}.bind(this))
@@ -170,7 +170,6 @@ var MapDisplay = React.createClass({
 						if (!_.find(this.props.restaurants, function(obj) {	 	
 								return obj.id === marker.restaurantID
 							})) {
-							
 							marker.setMap(null)
 						}
 

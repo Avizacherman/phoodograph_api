@@ -1,4 +1,24 @@
 <h1 class="ui center aligned header"> API Endpoints </h1>
 
-<h3 class="ui center aligned header"> User </h3>
+<h2> Restaurants </h2>
+<h3> "/restaurant" </h3>
+<h4> Query Strings </h4>
+<ul>
+	<li>location | lat,lng </li>
+	<li>radius | distance in miles from location (defaults to 5) </li>
+	<li>categories | category of restaurant (currently only accepts one input) </li>
+	<li> name | name of restaurant </li>
+	<li> rating | average rating of restaurant reviews </li>
+	<li> limit | maximum number of restaurants to display (defaults to 25)</li>
+</ul>
+<br/>
 
+<h3> "/reviews" </h3>
+<h4> Query Strings </h4>
+<ul>
+	<li> rating | rating of review </li>
+	<li> hashtags | searches for a hashtag in the review </li>
+	<li> username | username associated with review </li>
+	<li> offset | offset start point for review data (defaults to 0) </li>
+	<li> limit | maximum number of reviews to display (defaults to 10)</li>
+</ul>
