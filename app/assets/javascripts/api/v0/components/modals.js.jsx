@@ -10,6 +10,8 @@ var ModalControler = React.createClass({
 })
 
 var LoginModal = React.createClass({
+	//save enter press for later
+	
 	runLogIn: function(){
 		var username = $('#login-user').val()
 		var password = $('#login-pw').val()
