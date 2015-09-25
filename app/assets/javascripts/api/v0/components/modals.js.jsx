@@ -10,6 +10,14 @@ var ModalControler = React.createClass({
 })
 
 var LoginModal = React.createClass({
+	componentDidMount: function(){
+
+		$('#login-form').on('keydown', function(e){
+			if (e.keyCode == 13){
+				this.runLogIn()
+			}
+		}.bind(this))
+	},
 	runLogIn: function(){
 		var username = $('#login-user').val()
 		var password = $('#login-pw').val()
@@ -70,6 +78,13 @@ var NewUserModal = React.createClass({
 	},
 	componentDidMount: function () {
 	  $('#new-user-display-name').checkbox('set checked')	
+	  
+	  $('#new-user-form').on('keydown', function(e){
+			if (e.keyCode == 13){
+				this.createAccount()
+			}
+		}.bind(this))
+
 	  $('#new-user-form').form({ 
 	  	fields: {
 	  		username: {
