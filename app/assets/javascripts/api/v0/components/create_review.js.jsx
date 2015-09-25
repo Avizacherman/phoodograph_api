@@ -14,7 +14,6 @@ var CreateReviewSideBar = React.createClass({
 				method: 'POST',
 				data: {name: App.currentPlace.name, lat: App.currentPlace.lat, lng: App.currentPlace.lng, categories: categories, g_places_id: App.currentPlace.placeId}
 			}).done(function(data){
-				console.log(data.data.id)
 				App.currentPlace.dbID = data.data.id
 				App.formData.append('restaurant_id', data.data.id)
 				$.ajax({

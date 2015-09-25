@@ -106,7 +106,7 @@ var MapDisplay = React.createClass({
 							position: "absolute"
 						}
 					}
-					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} populateRestaurant={this.props.populateRestaurant}/ > 
+					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} populateRestaurant={this.props.populateRestaurant} cleanMarkers={this.props.cleanMarkers}/ > 
 					<MapImageBox/>
 
 					</div>)
@@ -177,11 +177,7 @@ var MapDisplay = React.createClass({
 						// }
 					}.bind(this))
 					//update array to reflect markers that are on the map
-					this.props.markers = this.props.markers.map(function(marker){
-						if(marker.getMap() != null){
-							return marker
-						} 
-					})
+					this.props.cleanMarkers()
 
 
 				}

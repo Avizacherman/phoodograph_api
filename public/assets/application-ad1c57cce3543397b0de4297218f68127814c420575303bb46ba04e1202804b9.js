@@ -28758,6 +28758,7 @@ $.fn.sidebar.settings = {
   error   : {
     method       : 'The method you called is not defined.',
     pusher       : 'Had to add pusher element. For optimal performance make sure body content is inside a pusher element',
+    movedSidebar : 'Had to move sidebar. For optimal performance make sure sidebar and pusher are direct children of your body tag',
     overlay      : 'The overlay setting is no longer supported, use animation: overlay',
     notFound     : 'There were no elements that matched the specified selector'
   }
@@ -58524,7 +58525,6 @@ var CreateReviewSideBar = React.createClass({
 				method: 'POST',
 				data: { name: App.currentPlace.name, lat: App.currentPlace.lat, lng: App.currentPlace.lng, categories: categories, g_places_id: App.currentPlace.placeId }
 			}).done(function (data) {
-				console.log(data.data.id);
 				App.currentPlace.dbID = data.data.id;
 				App.formData.append('restaurant_id', data.data.id);
 				$.ajax({
@@ -58707,7 +58707,7 @@ var PictureUpload = React.createClass({
 		return React.createElement(
 			'div',
 			{ className: 'field' },
-			React.createElement('input', { type: 'file', id: 'review-upload-picture' }),
+			React.createElement('input', { type: 'file', id: 'review-upload-picture', accept: 'image/*;capture=camera' }),
 			React.createElement('img', { id: 'preview-image', height: '50px', width: '50px' })
 		);
 	}
@@ -58917,7 +58917,11 @@ var InitialTemplate = React.createClass({
 			this.updateRestaurants();
 		}).bind(this));
 	},
-	clearCategories: function () {},
+	componentDidMount: function () {
+		App.restaurantUpdateInterval = setInterval((function () {
+			this.updateRestaurants();
+		}).bind(this), 10000);
+	},
 
 	updateRestaurants: function () {
 		if (this.state.filters) {
@@ -58943,7 +58947,6 @@ var InitialTemplate = React.createClass({
 				}
 			}).join('&');
 		}
-		console.log(queryString);
 
 		$.ajax({
 			url: this.props.restaurantURL + '?location=' + App.currentLocation.lat + ',' + App.currentLocation.lng + queryString,
@@ -58979,11 +58982,22 @@ var InitialTemplate = React.createClass({
 			this.updateRestaurants();
 		});
 	},
+	cleanMarkers: function () {
+		assignedMakers = this.state.markers.map(function (marker) {
+			if (marker.getMap() != null) {
+				return marker;
+			}
+		});
+	},
 	displayFilters: function () {
 		if ($('#create-review-bar').sidebar('is visible')) {
 			$('#create-review-bar').sidebar('toggle');
 		}
 		$('#filter-bar').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('setting', 'dimPage', false).sidebar('setting', 'closable', false).sidebar('toggle');
+
+		if ($('html').attr('class') === 'ios') {
+			$('#filter-bar').sidebar('setting', 'exclusive', true);
+		}
 	},
 	displayReviewBar: function () {
 		if ($('#filter-bar').sidebar('is visible')) {
@@ -58991,9 +59005,16 @@ var InitialTemplate = React.createClass({
 		}
 
 		$('#create-review-bar').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('setting', 'dimPage', false).sidebar('setting', 'closable', false).sidebar('toggle');
+		if ($('html').attr('class') === 'ios') {
+			$('#create-review-bar').sidebar('setting', 'exclusive', true);
+		}
 	},
 	populateRestaurant: function (id) {
 		$('#restaurant-bar').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('setting', 'dimPage', false).sidebar('setting', 'closable', false);
+		if ($('html').attr('class') === 'ios') {
+			$('#restaurant-bar').sidebar('setting', 'exclusive', true);
+		}
+
 		$.ajax({
 			url: this.props.restaurantURL + '/' + id,
 			method: 'GET'
@@ -59024,7 +59045,7 @@ var InitialTemplate = React.createClass({
 			"div",
 			{ className: "pusher", id: "base-content" },
 			React.createElement(TopBar, { filter: this.displayFilters, loginStatus: this.state.loginStatus, updateLoginStatus: this.updateLoginStatus, addReview: this.displayReviewBar }),
-			React.createElement(MapDisplay, { restaurants: this.state.restaurants, markers: this.state.markers, updateLocation: this.currentLocation, populateRestaurant: this.populateRestaurant }),
+			React.createElement(MapDisplay, { restaurants: this.state.restaurants, markers: this.state.markers, updateLocation: this.currentLocation, populateRestaurant: this.populateRestaurant, cleanMarkers: this.cleanMarkers }),
 			React.createElement(FilterBar, { categoryList: this.props.categoryList, updateFilters: this.updateFilters, filters: this.state.filters, id: "filter-bar" }),
 			React.createElement(RestaurantSideBar, { ref: "restaurantSideBar", restaurantDetails: this.state.currentRestaurant, id: "restaurant-bar" }),
 			React.createElement(CreateReviewSideBar, { id: "create-review-bar", categoryList: this.props.categoryList, updateRestaurants: this.updateRestaurants }),
@@ -59130,7 +59151,7 @@ var MapDisplay = React.createClass({
 				})
 			}),
 			"  ",
-			React.createElement(MapRestaurantMarkers, { restaurants: this.props.restaurants, markers: this.props.markers, populateRestaurant: this.props.populateRestaurant }),
+			React.createElement(MapRestaurantMarkers, { restaurants: this.props.restaurants, markers: this.props.markers, populateRestaurant: this.props.populateRestaurant, cleanMarkers: this.props.cleanMarkers }),
 			React.createElement(MapImageBox, null)
 		);
 	}
@@ -59199,11 +59220,7 @@ var MapRestaurantMarkers = React.createClass({
 				// }
 			}).bind(this));
 			//update array to reflect markers that are on the map
-			this.props.markers = this.props.markers.map(function (marker) {
-				if (marker.getMap() != null) {
-					return marker;
-				}
-			});
+			this.props.cleanMarkers();
 		}
 		return null;
 	}
@@ -59455,6 +59472,7 @@ var RestaurantSideBar = React.createClass({
 		$('#fixed-rating').rating({
 			initialRating: this.props.restaurantDetails.average_rating
 		}).rating('disable');
+		clearInterval(App.imageRotation);
 	},
 	render: function () {
 		if (this.props.restaurantDetails.reviews) {
@@ -59505,21 +59523,21 @@ var RestaurantImageRotator = React.createClass({
 
 	componentDidUpdate: function () {
 		clearInterval(App.imageRotation);
-		var state = "tails";
+		App.state = "tails";
 		$('#rotating-image-tails').show();
-		$('#rotating-image-heads').show();
+		$('#rotating-image-heads').hide();
 
 		$('#rotating-image-tails').attr('src', this.props.images[this.props.images.length - 1]);
 
 		if (this.props.images.length > 1) {
 			App.imageRotation = setInterval((function () {
 
-				if (state === "tails") {
-					state = "heads";
+				if (App.state === "tails") {
+					App.state = "heads";
 					$('#rotating-image-tails').fadeOut('slow');
 					$('#rotating-image-heads').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random() * this.props.images.length)]);
 				} else {
-					state = "tails";
+					App.state = "tails";
 					$('#rotating-image-tails').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random() * this.props.images.length)]);
 					$('#rotating-image-heads').fadeOut('slow');
 				}

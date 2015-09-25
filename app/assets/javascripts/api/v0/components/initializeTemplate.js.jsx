@@ -54,7 +54,6 @@ var InitialTemplate = React.createClass({
 					}
 						}).join('&')
 				}
-		console.log(queryString)
 
 		$.ajax({
 			url: (this.props.restaurantURL + '?location=' + App.currentLocation.lat + ',' + App.currentLocation.lng + queryString ),
@@ -94,6 +93,13 @@ var InitialTemplate = React.createClass({
 
 		})
 
+	},
+	cleanMarkers: function(){
+			assignedMakers = this.state.markers.map(function(marker){
+					if(marker.getMap() != null){
+						return marker
+					} 
+				})
 	},
 	displayFilters: function(){
 		if($('#create-review-bar').sidebar('is visible')){
@@ -167,7 +173,7 @@ var InitialTemplate = React.createClass({
 
 			<TopBar filter={this.displayFilters} loginStatus={this.state.loginStatus} updateLoginStatus={this.updateLoginStatus} addReview={this.displayReviewBar}/>
 
-				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant}/>
+				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant} cleanMarkers={this.cleanMarkers}/>
 				
 
 			<FilterBar categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters} id="filter-bar"/>

@@ -41,21 +41,21 @@ var RestaurantSideBar = React.createClass({
 var RestaurantImageRotator = React.createClass({
 	componentDidUpdate: function () {
 	 		clearInterval(App.imageRotation)
-	 		var state = "tails"
+	 		App.state = "tails"
  		 $('#rotating-image-tails').show()
- 		 $('#rotating-image-heads').show()
+ 		 $('#rotating-image-heads').hide()
 	  
 	  $('#rotating-image-tails').attr('src', this.props.images[this.props.images.length-1])
 
 	  if(this.props.images.length > 1){
 	  	App.imageRotation = setInterval(function(){
 
-	  		if(state === "tails"){
-  			 state = "heads"
+	  		if(App.state === "tails"){
+  			 App.state = "heads"
 		 		 $('#rotating-image-tails').fadeOut('slow')
   			 $('#rotating-image-heads').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length)])
 	  		} else {
-	  			state = "tails"
+	  			App.state = "tails"
 	  			$('#rotating-image-tails').fadeIn('slow').attr('src', this.props.images[Math.floor(Math.random()*this.props.images.length)])
   			 $('#rotating-image-heads').fadeOut('slow')		 
 	  		}
