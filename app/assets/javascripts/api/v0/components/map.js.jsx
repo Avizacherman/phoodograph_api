@@ -130,6 +130,7 @@ var MapDisplay = React.createClass({
 							}
 						}.bind(this))
 					}.bind(this))
+				
 
 					this.props.restaurants.forEach(function(restaurant) {
 							var marker = new google.maps.Marker({
