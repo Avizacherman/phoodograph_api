@@ -106,7 +106,7 @@ var MapDisplay = React.createClass({
 							position: "absolute"
 						}
 					}
-					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} populateRestaurant={this.props.populateRestaurant} cleanMarkers={this.props.cleanMarkers}/ > 
+					/>  <MapRestaurantMarkers restaurants={this.props.restaurants} markers={this.props.markers} populateRestaurant={this.props.populateRestaurant}/ > 
 					<MapImageBox/>
 
 					</div>)
@@ -114,7 +114,7 @@ var MapDisplay = React.createClass({
 			})
 
 		var MapRestaurantMarkers = React.createClass({
-			render: function() {
+			componentDidUpdate: function(){
 				if (App.map) {
 					//check for and remove duplicates from restaurant
 					this.props.markers.forEach(function(marker, index) {
@@ -130,9 +130,12 @@ var MapDisplay = React.createClass({
 							}
 						}.bind(this))
 					}.bind(this))
-				
 
+				
 					this.props.restaurants.forEach(function(restaurant) {
+							if(!_.find(this.props.markers, function(marker){
+								return marker.restaurantID === restaurant.id
+							})){
 							var marker = new google.maps.Marker({
 								map: App.map,
 								position: restaurant.geodata,
@@ -163,24 +166,32 @@ var MapDisplay = React.createClass({
 							
 							}.bind(this))
 							this.props.markers.push(marker)
+						}
 						}.bind(this))
 								//check markers and clear those that no longer match restaurant data
 						
 					this.props.markers.forEach(function(marker, index) {
 
-						if (!_.find(this.props.restaurants, function(obj) {	 	
+						if (!_.find(this.props.restaurants, function(obj) {	
 								return obj.id === marker.restaurantID
-							})) {
+							}.bind(this))) {
 							marker.setMap(null)
-						}
+							}
 
 						// }
 					}.bind(this))
-					//update array to reflect markers that are on the map
-					this.props.cleanMarkers()
 
 
+
+					this.props.markers.forEach(function(marker, index){
+						if(marker.getMap() === null){
+							this.props.markers.splice(index, 1)
+						}
+					}.bind(this))
 				}
+			},
+			render: function() {
+				
 				return null
 			}
 		})

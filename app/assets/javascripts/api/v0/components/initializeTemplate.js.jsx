@@ -1,7 +1,7 @@
 var InitialTemplate = React.createClass({
 	displayName: "initialTemplate",
 	getInitialState: function(){ 
-		return {loginStatus: 'middle', restaurants: [], reviews: [], markers: [], currentRestaurant: {}, filters: [{radius: 20}, {rating: 1}]}
+		return {loginStatus: 'middle', restaurants: [], reviews: [], currentRestaurant: {}, filters: [{radius: 20}, {rating: 1}]}
 	},
 	updateLoginStatus: function(bool){
 		this.setState({loginStatus: bool})
@@ -94,13 +94,7 @@ var InitialTemplate = React.createClass({
 		})
 
 	},
-	cleanMarkers: function(){
-			assignedMakers = this.state.markers.map(function(marker){
-					if(marker.getMap() != null){
-						return marker
-					} 
-				})
-	},
+	
 	displayFilters: function(){
 		if($('#create-review-bar').sidebar('is visible')){
 			$('#create-review-bar').sidebar('toggle')
@@ -173,7 +167,7 @@ var InitialTemplate = React.createClass({
 
 			<TopBar filter={this.displayFilters} loginStatus={this.state.loginStatus} updateLoginStatus={this.updateLoginStatus} addReview={this.displayReviewBar}/>
 
-				<MapDisplay restaurants={this.state.restaurants} markers={this.state.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant} cleanMarkers={this.cleanMarkers}/>
+				<MapDisplay restaurants={this.state.restaurants} markers={this.props.markers} updateLocation={this.currentLocation} populateRestaurant={this.populateRestaurant}/>
 				
 
 			<FilterBar categoryList={this.props.categoryList} updateFilters={this.updateFilters} filters={this.state.filters} id="filter-bar"/>
@@ -192,6 +186,6 @@ var InitialTemplate = React.createClass({
 
 $(document).ready(function(){
 
-React.render(<InitialTemplate categoryList={App.categoryList}reviewURL="api/v0/review" restaurantURL="api/v0/restaurant" userURL="api/v0/user"/>, document.querySelector('body') )
+React.render(<InitialTemplate markers={[]} categoryList={App.categoryList}reviewURL="api/v0/review" restaurantURL="api/v0/restaurant" userURL="api/v0/user"/>, document.querySelector('body') )
 
 })
