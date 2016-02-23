@@ -25,6 +25,8 @@ module PhoodographApi
     # config.app_generators.stylesheet_engine :less
 
     config.middleware.use Mobvious::Manager
+    config.autoload_paths << Rails.root.join('lib')
+
 
   end
 end
